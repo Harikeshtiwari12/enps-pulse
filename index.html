@@ -97,6 +97,8 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
 /* Segue question */
 .segue-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
 .segue-label{font-size:0.7rem;font-weight:600;color:var(--accent);margin-bottom:8px;line-height:1.5}
+.eg-hint{font-size:0.62rem;color:rgba(255,255,255,0.2);line-height:1.7;margin-bottom:10px;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border-left:2px solid rgba(218,93,55,0.25)}
+.eg-hint strong{color:rgba(218,93,55,0.5);font-weight:700}
 
 /* Navigation */
 .nav-row{display:flex;gap:10px;margin-top:20px}
@@ -267,12 +269,14 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
       <div class="emoji-react" id="enpsEmoji"><span id="enpsEmojiIcon"></span><div class="emoji-label" id="enpsEmojiLabel"></div></div>
       <div class="segue-box" id="segueBox">
         <div class="segue-label" id="segueLabel"></div>
+        <div class="eg-hint" id="segueHint"></div>
         <textarea id="segueAnswer" placeholder="Share your thoughts..."></textarea>
       </div>
     </div>
     <div class="card">
       <div class="card-label"><span class="cl-icon cl-other">&#128172;</span> <span style="color:var(--muted)">Tell Us More</span></div>
       <div class="textarea-label">What is the primary reason for your score?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "The team culture is great but I feel there's limited visibility into my career growth path" or "I love the ownership I get but the workload sometimes feels unsustainable"</div>
       <textarea id="enpsReason" placeholder="Be honest — this is completely anonymous..."></textarea>
     </div>
     <div class="nav-row">
@@ -386,14 +390,23 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
     <div class="card">
       <div class="card-label"><span class="cl-icon cl-passion">&#128221;</span> <span style="color:var(--muted)">Your Voice Matters</span></div>
       <div class="textarea-label">What is working well in the organization?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "The transparency in town halls", "Freedom to experiment and fail", "My manager genuinely cares about my development", "The AI upskilling program was a great initiative"</div>
       <textarea data-open="working_well" placeholder="What makes TranZact great for you?"></textarea>
+
       <div class="textarea-label">What needs to change or improve?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "Meetings could be shorter and more action-oriented", "Need clearer promotion criteria", "Cross-team handoffs are messy", "Feedback loops between teams are slow"</div>
       <textarea data-open="needs_change" placeholder="Be honest — this helps us grow..."></textarea>
+
       <div class="textarea-label">Any feedback about your manager, team, or leadership?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "My manager gives great autonomy but I'd love more frequent check-ins", "Leadership is accessible but decisions sometimes feel top-down", "Team bonding has improved a lot this quarter"</div>
       <textarea data-open="mgr_team_feedback" placeholder="This stays anonymous..."></textarea>
+
       <div class="textarea-label">Any inputs on culture, HR policies & practices?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "WFH policy is fair", "Would love a mental health day policy", "The onboarding process for new joiners could be smoother", "Festival celebrations bring the team together — keep doing them"</div>
       <textarea data-open="culture_hr" placeholder="Policies, benefits, practices..."></textarea>
+
       <div class="textarea-label">Do you see yourself working here for the next 5 years? What factors affect your answer?</div>
+      <div class="eg-hint"><strong>For e.g.</strong> "Yes — I see growth here and I believe in the product", "Unsure — depends on how the company scales and if my role evolves with it", "The culture keeps me here but compensation needs to catch up with market"</div>
       <textarea data-open="five_year" placeholder="What keeps you here — or what might not?"></textarea>
     </div>
     <div class="nav-row">
@@ -463,10 +476,18 @@ function buildScale(containerId,stateKey){
       if(stateKey==='enps'){
         const sb=document.getElementById('segueBox');
         const sl=document.getElementById('segueLabel');
+        const sh=document.getElementById('segueHint');
         sb.style.display='block';
-        if(state.enps>=9){sl.textContent='You\'re a promoter! What should we start or continue doing to stay great?';}
-        else if(state.enps>=7){sl.textContent='You\'re neutral — what would take your experience from ordinary to great?';}
-        else{sl.textContent='What\'s your biggest obstacle to a positive work experience here?';}
+        if(state.enps>=9){
+          sl.textContent='You\'re a promoter! What should we start or continue doing to stay great?';
+          sh.innerHTML='<strong>For e.g.</strong> "Keep the open-door culture with leadership" or "Continue investing in team offsites and learning programs"';
+        } else if(state.enps>=7){
+          sl.textContent='You\'re neutral — what would take your experience from ordinary to great?';
+          sh.innerHTML='<strong>For e.g.</strong> "More clarity on promotions and growth paths" or "Better cross-team collaboration on projects"';
+        } else {
+          sl.textContent='What\'s your biggest obstacle to a positive work experience here?';
+          sh.innerHTML='<strong>For e.g.</strong> "Unclear expectations from my manager" or "I feel overworked and there\'s no acknowledgement of extra effort"';
+        }
       }
       // Button bounce
       this.style.transform='scale(1.15)';
