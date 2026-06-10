@@ -46,17 +46,14 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .sc-value.neutral{color:#fbbf24}
 .sc-value.negative{color:#f87171}
 .sc-sub{font-size:0.6rem;color:var(--muted);margin-top:6px;font-weight:600}
-
-/* Breakdown bar */
 .breakdown-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:10px}
-.bb-promoter{background:#1D9E75}
-.bb-passive{background:#EF9F27}
-.bb-detractor{background:#E24B4A}
+.bb-promoter{background:#1D9E75}.bb-passive{background:#EF9F27}.bb-detractor{background:#E24B4A}
 
 /* Sections */
 .section{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:all 0.2s}
 .section:hover{border-color:rgba(255,255,255,0.12)}
-.section-header{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-header{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em}
+.section-header span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .section-body{padding:16px 20px}
 
 /* Team table */
@@ -64,29 +61,35 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .team-table th{font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
 .team-table td{font-size:0.78rem;font-weight:600;padding:10px;border-bottom:1px solid var(--border);color:var(--text)}
 .team-table tr:last-child td{border-bottom:none}
-.team-table .enps-cell{font-weight:800;font-size:0.85rem}
 
 /* Pulse bars */
 .pulse-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .pulse-row:last-child{border-bottom:none}
-.pulse-label{flex:0 0 220px;font-size:0.75rem;font-weight:600;color:var(--muted)}
+.pulse-label{flex:0 0 240px;font-size:0.72rem;font-weight:600;color:var(--muted)}
 .pulse-bar-wrap{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
-.pulse-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.5s ease}
-.pulse-avg{flex:0 0 40px;text-align:right;font-size:0.8rem;font-weight:800;color:var(--text)}
+.pulse-bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.pulse-avg{flex:0 0 50px;text-align:right;font-size:0.8rem;font-weight:800;color:var(--text)}
+.pulse-group-title{font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-top:16px;margin-bottom:6px;padding-top:12px;border-top:1px solid var(--border)}
+.pulse-group-title:first-child{margin-top:0;padding-top:0;border-top:none}
 
 /* Comments */
 .comment{padding:12px 16px;background:var(--surface2);border-radius:10px;margin-bottom:10px;font-size:0.78rem;color:var(--muted);line-height:1.7;border-left:3px solid var(--accent)}
 .comment-meta{font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.15);margin-top:6px;text-transform:uppercase;letter-spacing:0.06em}
+.comment-category{font-size:0.5rem;font-weight:700;padding:2px 6px;border-radius:3px;margin-right:6px}
+.cat-working{background:rgba(29,158,117,0.12);color:#34d399}
+.cat-change{background:rgba(226,75,74,0.12);color:#f87171}
+.cat-mgr{background:rgba(55,138,221,0.12);color:#60a5fa}
+.cat-culture{background:rgba(223,122,254,0.12);color:var(--accent2)}
+.cat-5yr{background:rgba(239,159,39,0.12);color:#fbbf24}
 
 .empty-state{text-align:center;padding:40px 20px;font-size:0.8rem;color:var(--muted)}
-
 .responses-count{font-size:0.6rem;font-weight:600;color:var(--muted);margin-bottom:16px}
+.loading{text-align:center;padding:60px;font-size:0.8rem;color:var(--muted)}
 
 @media(max-width:640px){
   .dashboard{padding:24px 1rem 60px}
   .score-row{grid-template-columns:1fr 1fr}
-  .pulse-label{flex:0 0 140px;font-size:0.65rem}
-  .team-table{font-size:0.7rem}
+  .pulse-label{flex:0 0 150px;font-size:0.65rem}
 }
 </style>
 </head>
@@ -107,13 +110,10 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 <div class="dashboard" id="dashboard">
 
   <div class="dash-header">
-    <div>
-      <div class="dash-title">Tran<span class="accent-text">Z</span>act Pulse — Dashboard</div>
-    </div>
+    <div class="dash-title">Tran<span class="accent-text">Z</span>act Pulse — Dashboard</div>
     <div class="dash-quarter" id="dashQuarter"></div>
   </div>
 
-  <!-- Filters -->
   <div class="dash-filter" id="filters">
     <button class="filter-btn active" data-dept="All">All Teams</button>
     <button class="filter-btn" data-dept="Sales">Sales</button>
@@ -129,7 +129,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
   <div id="responseCount" class="responses-count"></div>
 
   <!-- Score Cards -->
-  <div class="score-row" id="scoreRow">
+  <div class="score-row">
     <div class="score-card">
       <div class="sc-label">eNPS Score</div>
       <div class="sc-value" id="enpsScore">—</div>
@@ -153,26 +153,51 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     </div>
   </div>
 
+  <!-- Manager NPS -->
+  <div class="score-row">
+    <div class="score-card">
+      <div class="sc-label">Manager NPS</div>
+      <div class="sc-value" id="mnpsScore">—</div>
+      <div class="sc-sub">How likely to recommend your manager</div>
+      <div class="breakdown-bar" id="mBreakdownBar"></div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Avg eNPS Rating</div>
+      <div class="sc-value" id="avgEnps" style="color:var(--text)">—</div>
+      <div class="sc-sub">Out of 10</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Avg Manager Rating</div>
+      <div class="sc-value" id="avgMnps" style="color:var(--text)">—</div>
+      <div class="sc-sub">Out of 10</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Overall Likert Avg</div>
+      <div class="sc-value" id="avgLikert" style="color:var(--text)">—</div>
+      <div class="sc-sub">Out of 4</div>
+    </div>
+  </div>
+
   <!-- Team Breakdown -->
   <div class="section">
-    <div class="section-header">Team-wise eNPS</div>
+    <div class="section-header"><span>Team-wise eNPS & Manager NPS</span></div>
     <div class="section-body">
-      <table class="team-table" id="teamTable">
-        <thead><tr><th>Department</th><th>Responses</th><th>eNPS</th><th>Avg Score</th></tr></thead>
+      <table class="team-table">
+        <thead><tr><th>Department</th><th>Responses</th><th>eNPS</th><th>Avg eNPS</th><th>Manager NPS</th><th>Avg mNPS</th></tr></thead>
         <tbody id="teamBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- Pulse Averages -->
+  <!-- Pulse Dimensions -->
   <div class="section">
-    <div class="section-header">Pulse Dimensions</div>
+    <div class="section-header"><span>All 29 Dimensions — Detailed Breakdown</span></div>
     <div class="section-body" id="pulseSection"></div>
   </div>
 
-  <!-- Comments -->
+  <!-- Feedback -->
   <div class="section">
-    <div class="section-header">Anonymous Feedback</div>
+    <div class="section-header"><span>Anonymous Feedback</span></div>
     <div class="section-body" id="commentsSection"></div>
   </div>
 
@@ -186,8 +211,7 @@ const now=new Date(),q=Math.ceil((now.getMonth()+1)/3),yr=now.getFullYear();
 document.getElementById('dashQuarter').textContent='Q'+q+' '+yr;
 
 function doLogin(){
-  const pass=document.getElementById('passInput').value;
-  if(pass===ADMIN_PASS){
+  if(document.getElementById('passInput').value===ADMIN_PASS){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('dashboard').style.display='block';
     loadData();
@@ -199,7 +223,6 @@ function doLogin(){
 let allData=[];
 let currentFilter='All';
 
-// Filters
 document.getElementById('filters').addEventListener('click',function(e){
   if(!e.target.classList.contains('filter-btn'))return;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -208,124 +231,202 @@ document.getElementById('filters').addEventListener('click',function(e){
   renderDashboard();
 });
 
+// Field mapping from sheet headers to keys
+const fieldMap={
+  'enps_score':'enps_score','enps_category':'enps_category','department':'department','quarter':'quarter',
+  'mnps_score':'mnps_score','manager_nps':'mnps_score',
+  'enps_reason':'enps_reason','segue_answer':'segue_answer',
+  'mgr_1_1s':'mgr_1on1','mgr_feedback':'mgr_feedback','mgr_values_me':'mgr_values','mgr_ownership':'mgr_ownership','mgr_fair':'mgr_fair',
+  'align_company':'align_company','align_goals':'align_goals','voice':'comm_voice','transparent_feedback':'comm_transparent','leaders_communicate':'comm_leaders','peer_communication':'comm_peers',
+  'impact_orientation':'impact_orientation','impact_urgency':'impact_urgency','innovation':'innovation','values_aligned':'values_aligned','collaboration':'collaboration','decision_making':'decision_making',
+  'growth___learning':'growth_learn','rewards_fair':'rewards_fair','leaders_approachable':'leaders_approachable','leaders_display_values':'leaders_values','hiring_culture':'hiring_culture',
+  'work_life_balance':'wlb','mental_health':'mental_health','diversity_fair':'diversity_fair','safe___positive':'safe_positive','celebrates':'celebrates','resources':'resources','policies':'policies',
+  'what_works_well':'working_well','what_needs_change':'needs_change','manager_team_feedback':'mgr_team_feedback','culture_hr_feedback':'culture_hr','5_year_vision':'five_year'
+};
+
+function normalize(row){
+  const out={};
+  for(const key in row){
+    const mapped=fieldMap[key]||key;
+    out[mapped]=row[key];
+  }
+  // Ensure numeric
+  out.enps_score=parseInt(out.enps_score)||0;
+  out.mnps_score=parseInt(out.mnps_score)||0;
+  return out;
+}
+
 function loadData(){
+  document.getElementById('responseCount').textContent='Loading responses...';
   fetch(SHEET_URL)
     .then(r=>r.json())
     .then(data=>{
-      allData=data;
+      allData=data.map(normalize);
       renderDashboard();
     })
-    .catch(()=>{
-      // Demo data for testing
-      allData=[
-        {department:"Sales",enps_score:9,enps_category:"Promoter",manager_support:4,growth_learning:5,culture_belonging:4,work_life_balance:3,communication_transparency:4,feedback:"Great energy in the team!",quarter:"Q2 2026"},
-        {department:"Sales",enps_score:7,enps_category:"Passive",manager_support:3,growth_learning:3,culture_belonging:4,work_life_balance:4,communication_transparency:3,feedback:"Need more clarity on targets.",quarter:"Q2 2026"},
-        {department:"Engineering",enps_score:10,enps_category:"Promoter",manager_support:5,growth_learning:5,culture_belonging:5,work_life_balance:4,communication_transparency:4,feedback:"Love the tech stack and autonomy.",quarter:"Q2 2026"},
-        {department:"Engineering",enps_score:5,enps_category:"Detractor",manager_support:2,growth_learning:3,culture_belonging:3,work_life_balance:2,communication_transparency:2,feedback:"Burnout is real. Need better WLB.",quarter:"Q2 2026"},
-        {department:"Customer Experience",enps_score:8,enps_category:"Passive",manager_support:4,growth_learning:3,culture_belonging:4,work_life_balance:3,communication_transparency:3,feedback:"Good team, but processes can improve.",quarter:"Q2 2026"},
-        {department:"Customer Experience",enps_score:9,enps_category:"Promoter",manager_support:5,growth_learning:4,culture_belonging:5,work_life_balance:4,communication_transparency:4,feedback:"—",quarter:"Q2 2026"},
-        {department:"Product",enps_score:8,enps_category:"Passive",manager_support:4,growth_learning:4,culture_belonging:4,work_life_balance:3,communication_transparency:4,feedback:"Would love more cross-team collab.",quarter:"Q2 2026"},
-        {department:"Growth Marketing",enps_score:10,enps_category:"Promoter",manager_support:5,growth_learning:5,culture_belonging:5,work_life_balance:5,communication_transparency:5,feedback:"Best place I've worked!",quarter:"Q2 2026"},
-        {department:"Channel Partnerships",enps_score:6,enps_category:"Detractor",manager_support:3,growth_learning:2,culture_belonging:3,work_life_balance:3,communication_transparency:2,feedback:"Need more support from leadership.",quarter:"Q2 2026"},
-        {department:"People",enps_score:9,enps_category:"Promoter",manager_support:5,growth_learning:4,culture_belonging:5,work_life_balance:4,communication_transparency:5,feedback:"Culture is our superpower.",quarter:"Q2 2026"}
-      ];
-      renderDashboard();
+    .catch(err=>{
+      document.getElementById('responseCount').textContent='Could not load data. Make sure the Apps Script is deployed correctly.';
     });
+}
+
+function calcNPS(data,scoreKey){
+  const t=data.length;
+  if(!t)return{score:'—',pPct:0,paPct:0,dPct:0,pCount:0,paCount:0,dCount:0,avg:'—'};
+  const p=data.filter(d=>d[scoreKey]>=9).length;
+  const pa=data.filter(d=>d[scoreKey]>=7&&d[scoreKey]<=8).length;
+  const de=data.filter(d=>d[scoreKey]<=6).length;
+  const pPct=Math.round(p/t*100),dPct=Math.round(de/t*100),paPct=Math.round(pa/t*100);
+  const score=pPct-dPct;
+  const avg=(data.reduce((s,d)=>s+d[scoreKey],0)/t).toFixed(1);
+  return{score,pPct,paPct,dPct,pCount:p,paCount:pa,dCount:de,avg};
 }
 
 function renderDashboard(){
   const data=currentFilter==='All'?allData:allData.filter(d=>d.department===currentFilter);
   const total=data.length;
-
   document.getElementById('responseCount').textContent=total+' response'+(total!==1?'s':'')+' collected';
 
-  if(total===0){
-    document.getElementById('enpsScore').textContent='—';
-    document.getElementById('enpsSub').textContent='';
-    document.getElementById('promoterPct').textContent='—';
-    document.getElementById('passivePct').textContent='—';
-    document.getElementById('detractorPct').textContent='—';
-    document.getElementById('promoterCount').textContent='';
-    document.getElementById('passiveCount').textContent='';
-    document.getElementById('detractorCount').textContent='';
-    document.getElementById('breakdownBar').innerHTML='';
+  if(!total){
+    ['enpsScore','promoterPct','passivePct','detractorPct','mnpsScore','avgEnps','avgMnps','avgLikert'].forEach(id=>{document.getElementById(id).textContent='—';});
+    ['enpsSub','promoterCount','passiveCount','detractorCount'].forEach(id=>{document.getElementById(id).textContent='';});
+    ['breakdownBar','mBreakdownBar'].forEach(id=>{document.getElementById(id).innerHTML='';});
     document.getElementById('teamBody').innerHTML='';
-    document.getElementById('pulseSection').innerHTML='<div class="empty-state">No responses yet</div>';
-    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No feedback yet</div>';
+    document.getElementById('pulseSection').innerHTML='<div class="empty-state">No responses yet. Share the survey link with your team.</div>';
+    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No feedback yet.</div>';
     return;
   }
 
-  const promoters=data.filter(d=>d.enps_score>=9).length;
-  const passives=data.filter(d=>d.enps_score>=7&&d.enps_score<=8).length;
-  const detractors=data.filter(d=>d.enps_score<=6).length;
-  const pPct=Math.round(promoters/total*100);
-  const dPct=Math.round(detractors/total*100);
-  const paPct=Math.round(passives/total*100);
-  const enps=pPct-dPct;
-
+  // eNPS
+  const enps=calcNPS(data,'enps_score');
   const el=document.getElementById('enpsScore');
-  el.textContent=(enps>0?'+':'')+enps;
-  el.className='sc-value '+(enps>0?'positive':enps<0?'negative':'neutral');
+  el.textContent=(enps.score>0?'+':'')+enps.score;
+  el.className='sc-value '+(enps.score>0?'positive':enps.score<0?'negative':'neutral');
   document.getElementById('enpsSub').textContent='% Promoters - % Detractors';
+  document.getElementById('promoterPct').textContent=enps.pPct+'%';
+  document.getElementById('promoterCount').textContent=enps.pCount+' of '+total;
+  document.getElementById('passivePct').textContent=enps.paPct+'%';
+  document.getElementById('passiveCount').textContent=enps.paCount+' of '+total;
+  document.getElementById('detractorPct').textContent=enps.dPct+'%';
+  document.getElementById('detractorCount').textContent=enps.dCount+' of '+total;
+  document.getElementById('breakdownBar').innerHTML='<div class="bb-promoter" style="width:'+enps.pPct+'%"></div><div class="bb-passive" style="width:'+enps.paPct+'%"></div><div class="bb-detractor" style="width:'+enps.dPct+'%"></div>';
+  document.getElementById('avgEnps').textContent=enps.avg;
 
-  document.getElementById('promoterPct').textContent=pPct+'%';
-  document.getElementById('promoterCount').textContent=promoters+' of '+total;
-  document.getElementById('passivePct').textContent=paPct+'%';
-  document.getElementById('passiveCount').textContent=passives+' of '+total;
-  document.getElementById('detractorPct').textContent=dPct+'%';
-  document.getElementById('detractorCount').textContent=detractors+' of '+total;
+  // Manager NPS
+  const mnps=calcNPS(data,'mnps_score');
+  const mel=document.getElementById('mnpsScore');
+  mel.textContent=(mnps.score>0?'+':'')+mnps.score;
+  mel.className='sc-value '+(mnps.score>0?'positive':mnps.score<0?'negative':'neutral');
+  document.getElementById('mBreakdownBar').innerHTML='<div class="bb-promoter" style="width:'+mnps.pPct+'%"></div><div class="bb-passive" style="width:'+mnps.paPct+'%"></div><div class="bb-detractor" style="width:'+mnps.dPct+'%"></div>';
+  document.getElementById('avgMnps').textContent=mnps.avg;
 
-  document.getElementById('breakdownBar').innerHTML=
-    '<div class="bb-promoter" style="width:'+pPct+'%"></div>'+
-    '<div class="bb-passive" style="width:'+paPct+'%"></div>'+
-    '<div class="bb-detractor" style="width:'+dPct+'%"></div>';
+  // Overall Likert avg
+  const likertKeys=['mgr_1on1','mgr_feedback','mgr_values','mgr_ownership','mgr_fair','align_company','align_goals','comm_voice','comm_transparent','comm_leaders','comm_peers','impact_orientation','impact_urgency','innovation','values_aligned','collaboration','decision_making','growth_learn','rewards_fair','leaders_approachable','leaders_values','hiring_culture','wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies'];
+  let lSum=0,lCount=0;
+  data.forEach(d=>{likertKeys.forEach(k=>{const v=parseInt(d[k]);if(v){lSum+=v;lCount++;}});});
+  document.getElementById('avgLikert').textContent=lCount?(lSum/lCount).toFixed(2):'—';
 
   // Team breakdown
   if(currentFilter==='All'){
-    const depts=[...new Set(allData.map(d=>d.department))];
+    const depts=[...new Set(allData.map(d=>d.department))].filter(Boolean);
     let rows='';
     depts.forEach(dept=>{
       const dd=allData.filter(d=>d.department===dept);
-      const t=dd.length;
-      const p=dd.filter(d=>d.enps_score>=9).length;
-      const de=dd.filter(d=>d.enps_score<=6).length;
-      const e=Math.round(p/t*100)-Math.round(de/t*100);
-      const avg=(dd.reduce((s,d)=>s+d.enps_score,0)/t).toFixed(1);
-      const cls=e>0?'positive':e<0?'negative':'neutral';
-      rows+='<tr><td>'+dept+'</td><td>'+t+'</td><td class="enps-cell" style="color:'+(e>0?'#34d399':e<0?'#f87171':'#fbbf24')+'">'+(e>0?'+':'')+e+'</td><td>'+avg+'/10</td></tr>';
+      const e=calcNPS(dd,'enps_score');
+      const m=calcNPS(dd,'mnps_score');
+      const eClr=e.score>0?'#34d399':e.score<0?'#f87171':'#fbbf24';
+      const mClr=m.score>0?'#34d399':m.score<0?'#f87171':'#fbbf24';
+      rows+='<tr><td>'+dept+'</td><td>'+dd.length+'</td><td style="font-weight:800;color:'+eClr+'">'+(e.score>0?'+':'')+e.score+'</td><td>'+e.avg+'/10</td><td style="font-weight:800;color:'+mClr+'">'+(m.score>0?'+':'')+m.score+'</td><td>'+m.avg+'/10</td></tr>';
     });
     document.getElementById('teamBody').innerHTML=rows;
   } else {
-    document.getElementById('teamBody').innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px">Showing filtered view — select "All Teams" for breakdown</td></tr>';
+    document.getElementById('teamBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px">Select "All Teams" for team breakdown</td></tr>';
   }
 
-  // Pulse
-  const dims=[
-    {key:'manager_support',label:'Manager Support'},
-    {key:'growth_learning',label:'Growth & Learning'},
-    {key:'culture_belonging',label:'Culture & Belonging'},
-    {key:'work_life_balance',label:'Work-Life Balance'},
-    {key:'communication_transparency',label:'Communication & Transparency'}
+  // Pulse dimensions grouped
+  const groups=[
+    {title:'Manager',color:'var(--accent)',items:[
+      {key:'mgr_1on1',label:'Regular 1:1 conversations'},
+      {key:'mgr_feedback',label:'Actionable development feedback'},
+      {key:'mgr_values',label:'Values my opinions even in disagreement'},
+      {key:'mgr_ownership',label:'Provides ownership, no micromanagement'},
+      {key:'mgr_fair',label:'Fair dealing with team members'}
+    ]},
+    {title:'Alignment & Communication',color:'#60a5fa',items:[
+      {key:'align_company',label:'Clear on company objectives'},
+      {key:'align_goals',label:'Clear on personal goals & contribution'},
+      {key:'comm_voice',label:'I have a voice in the organisation'},
+      {key:'comm_transparent',label:'Comfortable sharing feedback transparently'},
+      {key:'comm_leaders',label:'Leaders communicate news effectively'},
+      {key:'comm_peers',label:'Peer communication is honest & transparent'}
+    ]},
+    {title:'Culture, Impact & Innovation',color:'var(--accent2)',items:[
+      {key:'impact_orientation',label:'Strong impact orientation'},
+      {key:'impact_urgency',label:'Sense of urgency solving problems'},
+      {key:'innovation',label:'Encouraged to try new things, no fear of failure'},
+      {key:'values_aligned',label:'Org values aligned with personal values'},
+      {key:'collaboration',label:'Cross-team collaboration'},
+      {key:'decision_making',label:'Effective decision-making with autonomy'}
+    ]},
+    {title:'Growth, Rewards & Leadership',color:'var(--green)',items:[
+      {key:'growth_learn',label:'Opportunities to learn & develop'},
+      {key:'rewards_fair',label:'Recognized & rewarded fairly'},
+      {key:'leaders_approachable',label:'Easy to approach leadership'},
+      {key:'leaders_values',label:'Leaders display company values'},
+      {key:'hiring_culture',label:'New hires are culturally aligned'}
+    ]},
+    {title:'Wellbeing & Policies',color:'var(--accent)',items:[
+      {key:'wlb',label:'Work-life balance flexibility'},
+      {key:'mental_health',label:'Organization cares about mental health'},
+      {key:'diversity_fair',label:'People from all backgrounds treated fairly'},
+      {key:'safe_positive',label:'I feel safe and positive at work'},
+      {key:'celebrates',label:'Celebrates accomplishments & learnings'},
+      {key:'resources',label:'I have resources to do my job'},
+      {key:'policies',label:'Employee-friendly people policies'}
+    ]}
   ];
+
   let pulseHTML='';
-  dims.forEach(d=>{
-    const vals=data.map(r=>parseInt(r[d.key])||0).filter(v=>v>0);
-    const avg=vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1):'—';
-    const pct=vals.length?((avg/5)*100).toFixed(0):0;
-    pulseHTML+='<div class="pulse-row"><div class="pulse-label">'+d.label+'</div><div class="pulse-bar-wrap"><div class="pulse-bar-fill" style="width:'+pct+'%"></div></div><div class="pulse-avg">'+avg+'</div></div>';
+  groups.forEach(g=>{
+    pulseHTML+='<div class="pulse-group-title" style="color:'+g.color+'">'+g.title+'</div>';
+    g.items.forEach(item=>{
+      const vals=data.map(d=>parseInt(d[item.key])||0).filter(v=>v>0);
+      const avg=vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(2):'—';
+      const pct=vals.length?((avg/4)*100).toFixed(0):0;
+      const barColor=avg>=3.5?'#1D9E75':avg>=2.5?'#378ADD':avg>=1.5?'#EF9F27':'#E24B4A';
+      pulseHTML+='<div class="pulse-row"><div class="pulse-label">'+item.label+'</div><div class="pulse-bar-wrap"><div class="pulse-bar-fill" style="width:'+pct+'%;background:'+barColor+'"></div></div><div class="pulse-avg">'+avg+'</div></div>';
+    });
   });
   document.getElementById('pulseSection').innerHTML=pulseHTML;
 
   // Comments
-  const comments=data.filter(d=>d.feedback&&d.feedback!=='—'&&d.feedback.trim());
+  const commentFields=[
+    {key:'enps_reason',label:'eNPS Reason',cls:'cat-working'},
+    {key:'segue_answer',label:'Follow-up',cls:'cat-working'},
+    {key:'working_well',label:'Working Well',cls:'cat-working'},
+    {key:'needs_change',label:'Needs Change',cls:'cat-change'},
+    {key:'mgr_team_feedback',label:'Manager/Team',cls:'cat-mgr'},
+    {key:'culture_hr',label:'Culture/HR',cls:'cat-culture'},
+    {key:'five_year',label:'5-Year Vision',cls:'cat-5yr'}
+  ];
+
+  let comments=[];
+  data.forEach(d=>{
+    commentFields.forEach(cf=>{
+      const val=(d[cf.key]||'').toString().trim();
+      if(val&&val!=='—'&&val!=='undefined'){
+        comments.push({text:val,label:cf.label,cls:cf.cls,dept:d.department||'',quarter:d.quarter||''});
+      }
+    });
+  });
+
   if(comments.length){
     let cHTML='';
     comments.forEach(c=>{
-      cHTML+='<div class="comment">'+c.feedback.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'<div class="comment-meta">'+c.department+' &middot; '+c.quarter+'</div></div>';
+      cHTML+='<div class="comment"><span class="comment-category '+c.cls+'">'+c.label+'</span>'+c.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'<div class="comment-meta">'+c.dept+(c.quarter?' &middot; '+c.quarter:'')+'</div></div>';
     });
     document.getElementById('commentsSection').innerHTML=cHTML;
   } else {
-    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No written feedback for this filter</div>';
+    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No written feedback yet.</div>';
   }
 }
 </script>
