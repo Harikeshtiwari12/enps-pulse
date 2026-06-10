@@ -153,21 +153,69 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
     <div class="progress-text" id="progressText">Step 1 of 8</div>
   </div>
 
-  <!-- STEP 1: Department -->
+  <!-- STEP 1: About You (Anonymous Demographics) -->
   <div class="step active" data-step="1">
     <div class="card">
-      <div class="card-label"><span class="cl-icon cl-other">&#128188;</span> <span style="color:var(--muted)">Your Department</span></div>
-      <select id="deptSelect">
-        <option value="">Select your department...</option>
-        <option value="Sales">Sales</option>
-        <option value="Customer Experience">Customer Experience</option>
-        <option value="Engineering">Engineering</option>
-        <option value="Product">Product</option>
-        <option value="Growth Marketing">Growth Marketing</option>
-        <option value="Channel Partnerships">Channel Partnerships</option>
-        <option value="People">People</option>
-        <option value="Leadership">Leadership</option>
-      </select>
+      <div class="card-label"><span class="cl-icon cl-other">&#128188;</span> <span style="color:var(--muted)">About You (Still Anonymous)</span></div>
+
+      <div style="margin-bottom:14px">
+        <div class="textarea-label">Department</div>
+        <select id="deptSelect">
+          <option value="">Select your department...</option>
+          <option value="Sales">Sales</option>
+          <option value="Customer Experience">Customer Experience</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Product">Product</option>
+          <option value="Growth Marketing">Growth Marketing</option>
+          <option value="Channel Partnerships">Channel Partnerships</option>
+          <option value="People">People</option>
+          <option value="Leadership">Leadership</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div class="textarea-label">How long have you been at TranZact?</div>
+        <select id="tenureSelect">
+          <option value="">Select tenure...</option>
+          <option value="0-6 months">0 – 6 months</option>
+          <option value="6-12 months">6 – 12 months</option>
+          <option value="1-2 years">1 – 2 years</option>
+          <option value="2-3 years">2 – 3 years</option>
+          <option value="3+ years">3+ years</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div class="textarea-label">Your role level</div>
+        <select id="roleLevelSelect">
+          <option value="">Select role level...</option>
+          <option value="Individual Contributor">Individual Contributor</option>
+          <option value="Team Lead">Team Lead</option>
+          <option value="Manager">Manager</option>
+          <option value="Head / Director">Head / Director</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div class="textarea-label">Work mode</div>
+        <select id="workModeSelect">
+          <option value="">Select work mode...</option>
+          <option value="Office">Office (Full-time)</option>
+          <option value="Remote">Remote (Full-time)</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="textarea-label">Age group</div>
+        <select id="ageGroupSelect">
+          <option value="">Select age group...</option>
+          <option value="20-25">20 – 25</option>
+          <option value="26-30">26 – 30</option>
+          <option value="31-35">31 – 35</option>
+          <option value="36+">36+</option>
+        </select>
+      </div>
     </div>
     <div class="nav-row">
       <button class="nav-btn nav-next" id="next1" disabled onclick="goStep(2)">Next</button>
@@ -281,6 +329,15 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
       <div class="likert-q"><div class="lq-num">Q28</div><div class="lq-text">I have the resources to do my job effectively</div><div class="likert-btns" data-q="resources"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
       <div class="likert-q"><div class="lq-num">Q29</div><div class="lq-text">I believe we have employee-friendly people policies</div><div class="likert-btns" data-q="policies"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
     </div>
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-innovation">&#127775;</span> <span style="color:var(--muted)">360 Pulse — Deep Cuts</span></div>
+      <div class="likert-q"><div class="lq-num">Q30</div><div class="lq-text">I feel proud to tell people I work at TranZact</div><div class="likert-btns" data-q="pride"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q31</div><div class="lq-text">My workload is manageable and sustainable — I don't feel close to burnout</div><div class="likert-btns" data-q="workload"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q32</div><div class="lq-text">I can be my authentic self at work without fear of judgement</div><div class="likert-btns" data-q="authentic_self"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q33</div><div class="lq-text">I clearly understand how my work impacts our customers' success</div><div class="likert-btns" data-q="customer_impact"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q34</div><div class="lq-text">I have the right tools and technology to do my best work</div><div class="likert-btns" data-q="tools_tech"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q35</div><div class="lq-text">I feel a genuine sense of accomplishment from the work I do every day</div><div class="likert-btns" data-q="accomplishment"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
     <div class="nav-row">
       <button class="nav-btn nav-back" onclick="goStep(6)">Back</button>
       <button class="nav-btn nav-next" id="next7" disabled onclick="goStep(8)">Next</button>
@@ -326,7 +383,7 @@ document.getElementById('quarterBadge').textContent='Q'+q+' '+yr;
 
 const TOTAL_STEPS=8;
 let currentStep=1;
-const state={dept:'',enps:null,enps_reason:'',segue_answer:'',mnps:null};
+const state={dept:'',tenure:'',role_level:'',work_mode:'',age_group:'',enps:null,enps_reason:'',segue_answer:'',mnps:null};
 const likertState={};
 const openState={};
 
@@ -358,8 +415,12 @@ function buildScale(containerId,stateKey){
 buildScale('enpsScale','enps');
 buildScale('mnpsScale','mnps');
 
-// Dept
+// Demographics
 document.getElementById('deptSelect').onchange=function(){state.dept=this.value;validateStep();};
+document.getElementById('tenureSelect').onchange=function(){state.tenure=this.value;validateStep();};
+document.getElementById('roleLevelSelect').onchange=function(){state.role_level=this.value;validateStep();};
+document.getElementById('workModeSelect').onchange=function(){state.work_mode=this.value;validateStep();};
+document.getElementById('ageGroupSelect').onchange=function(){state.age_group=this.value;validateStep();};
 
 // Likert buttons
 document.querySelectorAll('.likert-btns').forEach(group=>{
@@ -376,13 +437,13 @@ document.querySelectorAll('.likert-btns').forEach(group=>{
 
 // Step validation
 const stepRequirements={
-  1:()=>!!state.dept,
+  1:()=>!!state.dept&&!!state.tenure&&!!state.role_level&&!!state.work_mode&&!!state.age_group,
   2:()=>state.enps!==null,
   3:()=>state.mnps!==null&&['mgr_1on1','mgr_feedback','mgr_values','mgr_ownership','mgr_fair'].every(k=>likertState[k]),
   4:()=>['align_company','align_goals','comm_voice','comm_transparent','comm_leaders','comm_peers'].every(k=>likertState[k]),
   5:()=>['impact_orientation','impact_urgency','innovation','values_aligned','collaboration','decision_making'].every(k=>likertState[k]),
   6:()=>['growth_learn','rewards_fair','leaders_approachable','leaders_values','hiring_culture'].every(k=>likertState[k]),
-  7:()=>['wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies'].every(k=>likertState[k]),
+  7:()=>['wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies','pride','workload','authentic_self','customer_impact','tools_tech','accomplishment'].every(k=>likertState[k]),
   8:()=>true
 };
 
@@ -419,6 +480,10 @@ function submitSurvey(){
     timestamp:new Date().toISOString(),
     quarter:'Q'+q+' '+yr,
     department:state.dept,
+    tenure:state.tenure,
+    role_level:state.role_level,
+    work_mode:state.work_mode,
+    age_group:state.age_group,
     enps_score:state.enps,
     enps_category:category,
     enps_reason:document.getElementById('enpsReason').value.trim()||'—',

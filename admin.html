@@ -114,16 +114,45 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     <div class="dash-quarter" id="dashQuarter"></div>
   </div>
 
-  <div class="dash-filter" id="filters">
-    <button class="filter-btn active" data-dept="All">All Teams</button>
-    <button class="filter-btn" data-dept="Sales">Sales</button>
-    <button class="filter-btn" data-dept="Customer Experience">CX</button>
-    <button class="filter-btn" data-dept="Engineering">Engineering</button>
-    <button class="filter-btn" data-dept="Product">Product</button>
-    <button class="filter-btn" data-dept="Growth Marketing">Growth</button>
-    <button class="filter-btn" data-dept="Channel Partnerships">Channel</button>
-    <button class="filter-btn" data-dept="People">People</button>
-    <button class="filter-btn" data-dept="Leadership">Leadership</button>
+  <!-- Filter: Department -->
+  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Department</div>
+  <div class="dash-filter" id="filters" data-key="department">
+    <button class="filter-btn active" data-val="All">All Teams</button>
+    <button class="filter-btn" data-val="Sales">Sales</button>
+    <button class="filter-btn" data-val="Customer Experience">CX</button>
+    <button class="filter-btn" data-val="Engineering">Engineering</button>
+    <button class="filter-btn" data-val="Product">Product</button>
+    <button class="filter-btn" data-val="Growth Marketing">Growth</button>
+    <button class="filter-btn" data-val="Channel Partnerships">Channel</button>
+    <button class="filter-btn" data-val="People">People</button>
+    <button class="filter-btn" data-val="Leadership">Leadership</button>
+  </div>
+  <!-- Filter: Tenure -->
+  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Tenure</div>
+  <div class="dash-filter" id="filtersTenure" data-key="tenure">
+    <button class="filter-btn active" data-val="All">All</button>
+    <button class="filter-btn" data-val="0-6 months">0-6m</button>
+    <button class="filter-btn" data-val="6-12 months">6-12m</button>
+    <button class="filter-btn" data-val="1-2 years">1-2y</button>
+    <button class="filter-btn" data-val="2-3 years">2-3y</button>
+    <button class="filter-btn" data-val="3+ years">3y+</button>
+  </div>
+  <!-- Filter: Role Level -->
+  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Role Level</div>
+  <div class="dash-filter" id="filtersRole" data-key="role_level">
+    <button class="filter-btn active" data-val="All">All</button>
+    <button class="filter-btn" data-val="Individual Contributor">IC</button>
+    <button class="filter-btn" data-val="Team Lead">Team Lead</button>
+    <button class="filter-btn" data-val="Manager">Manager</button>
+    <button class="filter-btn" data-val="Head / Director">Head+</button>
+  </div>
+  <!-- Filter: Work Mode -->
+  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Work Mode</div>
+  <div class="dash-filter" id="filtersWork" data-key="work_mode">
+    <button class="filter-btn active" data-val="All">All</button>
+    <button class="filter-btn" data-val="Office">Office</button>
+    <button class="filter-btn" data-val="Remote">Remote</button>
+    <button class="filter-btn" data-val="Hybrid">Hybrid</button>
   </div>
 
   <div id="responseCount" class="responses-count"></div>
@@ -221,14 +250,16 @@ function doLogin(){
 }
 
 let allData=[];
-let currentFilter='All';
+const filters={department:'All',tenure:'All',role_level:'All',work_mode:'All'};
 
-document.getElementById('filters').addEventListener('click',function(e){
-  if(!e.target.classList.contains('filter-btn'))return;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  e.target.classList.add('active');
-  currentFilter=e.target.dataset.dept;
-  renderDashboard();
+document.querySelectorAll('.dash-filter').forEach(bar=>{
+  bar.addEventListener('click',function(e){
+    if(!e.target.classList.contains('filter-btn'))return;
+    this.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    filters[this.dataset.key]=e.target.dataset.val;
+    renderDashboard();
+  });
 });
 
 // Field mapping from sheet headers to keys
@@ -282,7 +313,8 @@ function calcNPS(data,scoreKey){
 }
 
 function renderDashboard(){
-  const data=currentFilter==='All'?allData:allData.filter(d=>d.department===currentFilter);
+  let data=allData;
+  Object.keys(filters).forEach(k=>{if(filters[k]!=='All')data=data.filter(d=>d[k]===filters[k]);});
   const total=data.length;
   document.getElementById('responseCount').textContent=total+' response'+(total!==1?'s':'')+' collected';
 
@@ -320,13 +352,13 @@ function renderDashboard(){
   document.getElementById('avgMnps').textContent=mnps.avg;
 
   // Overall Likert avg
-  const likertKeys=['mgr_1on1','mgr_feedback','mgr_values','mgr_ownership','mgr_fair','align_company','align_goals','comm_voice','comm_transparent','comm_leaders','comm_peers','impact_orientation','impact_urgency','innovation','values_aligned','collaboration','decision_making','growth_learn','rewards_fair','leaders_approachable','leaders_values','hiring_culture','wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies'];
+  const likertKeys=['mgr_1on1','mgr_feedback','mgr_values','mgr_ownership','mgr_fair','align_company','align_goals','comm_voice','comm_transparent','comm_leaders','comm_peers','impact_orientation','impact_urgency','innovation','values_aligned','collaboration','decision_making','growth_learn','rewards_fair','leaders_approachable','leaders_values','hiring_culture','wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies','pride','workload','authentic_self','customer_impact','tools_tech','accomplishment'];
   let lSum=0,lCount=0;
   data.forEach(d=>{likertKeys.forEach(k=>{const v=parseInt(d[k]);if(v){lSum+=v;lCount++;}});});
   document.getElementById('avgLikert').textContent=lCount?(lSum/lCount).toFixed(2):'—';
 
   // Team breakdown
-  if(currentFilter==='All'){
+  if(filters.department==='All'){
     const depts=[...new Set(allData.map(d=>d.department))].filter(Boolean);
     let rows='';
     depts.forEach(dept=>{
@@ -382,6 +414,14 @@ function renderDashboard(){
       {key:'celebrates',label:'Celebrates accomplishments & learnings'},
       {key:'resources',label:'I have resources to do my job'},
       {key:'policies',label:'Employee-friendly people policies'}
+    ]},
+    {title:'360 Deep Cuts',color:'#fbbf24',items:[
+      {key:'pride',label:'Proud to tell people I work at TranZact'},
+      {key:'workload',label:'Workload is manageable, not close to burnout'},
+      {key:'authentic_self',label:'Can be my authentic self without judgement'},
+      {key:'customer_impact',label:'I understand how my work impacts customers'},
+      {key:'tools_tech',label:'I have the right tools and technology'},
+      {key:'accomplishment',label:'I feel genuine accomplishment from my work'}
     ]}
   ];
 
