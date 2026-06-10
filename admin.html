@@ -107,6 +107,32 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .cat-culture{background:rgba(223,122,254,0.12);color:var(--accent2)}
 .cat-5yr{background:rgba(239,159,39,0.12);color:#fbbf24}
 
+/* Insights */
+.insight{padding:10px 14px;border-radius:10px;margin-bottom:8px;font-size:0.75rem;font-weight:600;line-height:1.6;display:flex;align-items:flex-start;gap:10px}
+.insight-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.insight-good{background:rgba(29,158,117,0.08);color:#34d399;border:1px solid rgba(29,158,117,0.15)}
+.insight-warn{background:rgba(239,159,39,0.08);color:#fbbf24;border:1px solid rgba(239,159,39,0.15)}
+.insight-bad{background:rgba(226,75,74,0.08);color:#f87171;border:1px solid rgba(226,75,74,0.15)}
+.insight-info{background:rgba(55,138,221,0.08);color:#60a5fa;border:1px solid rgba(55,138,221,0.15)}
+
+/* Heatmap */
+.heatmap-table{width:100%;border-collapse:collapse;font-size:0.65rem}
+.heatmap-table th{font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--border);text-align:center;white-space:nowrap}
+.heatmap-table th:first-child{text-align:left}
+.heatmap-table td{padding:6px 8px;text-align:center;font-weight:700;border-bottom:1px solid var(--border)}
+.heatmap-table td:first-child{text-align:left;color:var(--text);font-weight:600}
+.heatmap-table tr:last-child td{border-bottom:none}
+.hm-cell{border-radius:4px;padding:4px 6px;display:inline-block;min-width:32px}
+
+/* Top/Bottom */
+.rank-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.75rem}
+.rank-row:last-child{border-bottom:none}
+.rank-num{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;flex-shrink:0}
+.rank-green{background:rgba(29,158,117,0.12);color:#34d399}
+.rank-red{background:rgba(226,75,74,0.12);color:#f87171}
+.rank-label{flex:1;font-weight:600;color:var(--muted)}
+.rank-val{font-weight:800;font-size:0.8rem}
+
 .empty-state{text-align:center;padding:40px 20px;font-size:0.8rem;color:var(--muted)}
 .responses-count{font-size:0.6rem;font-weight:600;color:var(--muted);margin-bottom:16px}
 .loading{text-align:center;padding:60px;font-size:0.8rem;color:var(--muted)}
@@ -243,6 +269,12 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     </div>
   </div>
 
+  <!-- Key Insights — Auto-generated -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#128161;</span><span>Key Insights & Alerts</span></div>
+    <div class="section-body" id="insightsSection"></div>
+  </div>
+
   <!-- Team Breakdown -->
   <div class="section">
     <div class="section-header"><span class="section-icon">&#128202;</span><span>Team-wise eNPS & Manager NPS</span></div>
@@ -251,6 +283,68 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
         <thead><tr><th>Department</th><th>Responses</th><th>eNPS</th><th>Avg eNPS</th><th>Manager NPS</th><th>Avg mNPS</th></tr></thead>
         <tbody id="teamBody"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Demographic Cuts: Tenure -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#128197;</span><span>eNPS by Tenure — Retention Risk View</span></div>
+    <div class="section-body">
+      <table class="team-table">
+        <thead><tr><th>Tenure</th><th>Responses</th><th>eNPS</th><th>Avg Score</th><th>Manager NPS</th><th>Burnout Avg</th></tr></thead>
+        <tbody id="tenureBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Demographic Cuts: Role Level -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#128188;</span><span>eNPS by Role Level — Hierarchy View</span></div>
+    <div class="section-body">
+      <table class="team-table">
+        <thead><tr><th>Role Level</th><th>Responses</th><th>eNPS</th><th>Avg Score</th><th>Pride</th><th>Growth</th></tr></thead>
+        <tbody id="roleBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Demographic Cuts: Work Mode -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#127968;</span><span>eNPS by Work Mode</span></div>
+    <div class="section-body">
+      <table class="team-table">
+        <thead><tr><th>Work Mode</th><th>Responses</th><th>eNPS</th><th>Avg Score</th><th>WLB</th><th>Communication</th></tr></thead>
+        <tbody id="workBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Demographic Cuts: Age -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#128100;</span><span>eNPS by Age Group — Generational View</span></div>
+    <div class="section-body">
+      <table class="team-table">
+        <thead><tr><th>Age Group</th><th>Responses</th><th>eNPS</th><th>Avg Score</th><th>Authentic Self</th><th>5yr Vision</th></tr></thead>
+        <tbody id="ageBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Heatmap: Team x Dimension -->
+  <div class="section">
+    <div class="section-header"><span class="section-icon">&#128293;</span><span>Heatmap — Team x Dimension</span></div>
+    <div class="section-body" style="overflow-x:auto" id="heatmapSection"></div>
+  </div>
+
+  <!-- Top 5 / Bottom 5 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+    <div class="section" style="margin-bottom:0">
+      <div class="section-header"><span class="section-icon">&#128154;</span><span>Top 5 Strengths</span></div>
+      <div class="section-body" id="top5Section"></div>
+    </div>
+    <div class="section" style="margin-bottom:0">
+      <div class="section-header"><span class="section-icon">&#128308;</span><span>Bottom 5 — Action Needed</span></div>
+      <div class="section-body" id="bottom5Section"></div>
     </div>
   </div>
 
@@ -425,7 +519,47 @@ function renderDashboard(){
   data.forEach(d=>{likertKeys.forEach(k=>{const v=parseInt(d[k]);if(v){lSum+=v;lCount++;}});});
   document.getElementById('avgLikert').textContent=lCount?(lSum/lCount).toFixed(2):'—';
 
-  // Team breakdown
+  // Helper: avg of a key
+  function dimAvg(arr,key){const vals=arr.map(d=>parseInt(d[key])||0).filter(v=>v>0);return vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length):0;}
+  function fmtAvg(v){return v?v.toFixed(2):'—';}
+  function npsColor(s){return s>0?'#34d399':s<0?'#f87171':'#fbbf24';}
+  function hmColor(v){if(!v)return'transparent';if(v>=3.5)return'rgba(29,158,117,0.25)';if(v>=3)return'rgba(55,138,221,0.2)';if(v>=2.5)return'rgba(239,159,39,0.2)';return'rgba(226,75,74,0.25)';}
+  function hmText(v){if(!v)return'var(--muted)';if(v>=3.5)return'#34d399';if(v>=3)return'#60a5fa';if(v>=2.5)return'#fbbf24';return'#f87171';}
+
+  // ===== KEY INSIGHTS =====
+  let insights=[];
+  if(enps.score>=40)insights.push({type:'good',icon:'🏆',text:'eNPS is <strong>'+enps.score+'</strong> — exceptional! Your team loves working here.'});
+  else if(enps.score>=20)insights.push({type:'good',icon:'✅',text:'eNPS is <strong>+'+enps.score+'</strong> — healthy for a growing org.'});
+  else if(enps.score>=0)insights.push({type:'warn',icon:'⚠️',text:'eNPS is <strong>'+enps.score+'</strong> — neutral zone. Passives need attention.'});
+  else insights.push({type:'bad',icon:'🚨',text:'eNPS is <strong>'+enps.score+'</strong> — negative. Immediate action needed.'});
+
+  if(mnps.score<enps.score-10)insights.push({type:'bad',icon:'📉',text:'Manager NPS (<strong>'+mnps.score+'</strong>) is significantly lower than org eNPS (<strong>'+enps.score+'</strong>). Manager effectiveness is a concern.'});
+  else if(mnps.score>enps.score+10)insights.push({type:'good',icon:'👏',text:'Manager NPS (<strong>+'+mnps.score+'</strong>) is higher than org eNPS — managers are a strength.'});
+
+  const burnoutAvg=dimAvg(data,'workload');
+  if(burnoutAvg&&burnoutAvg<2.5)insights.push({type:'bad',icon:'🔥',text:'Burnout risk is HIGH — workload avg is <strong>'+fmtAvg(burnoutAvg)+'/4</strong>. People are struggling.'});
+  else if(burnoutAvg&&burnoutAvg<3)insights.push({type:'warn',icon:'😓',text:'Workload avg is <strong>'+fmtAvg(burnoutAvg)+'/4</strong> — watch for early burnout signs.'});
+
+  const prideAvg=dimAvg(data,'pride');
+  if(prideAvg>=3.5)insights.push({type:'good',icon:'💪',text:'Pride score is <strong>'+fmtAvg(prideAvg)+'/4</strong> — people are proud to work at TranZact.'});
+  else if(prideAvg&&prideAvg<2.5)insights.push({type:'bad',icon:'😞',text:'Pride score is only <strong>'+fmtAvg(prideAvg)+'/4</strong> — employer brand perception needs work.'});
+
+  const growthAvg=dimAvg(data,'growth_learn');
+  if(growthAvg&&growthAvg<2.5)insights.push({type:'warn',icon:'📚',text:'Growth & Learning avg is <strong>'+fmtAvg(growthAvg)+'/4</strong> — people don\'t see enough development opportunities.'});
+
+  const commAvg=dimAvg(data,'comm_voice');
+  if(commAvg&&commAvg<2.5)insights.push({type:'warn',icon:'🔇',text:'People don\'t feel they have a voice — avg is <strong>'+fmtAvg(commAvg)+'/4</strong>. Communication needs opening up.'});
+
+  if(enps.dPct>=30)insights.push({type:'bad',icon:'🚪',text:'<strong>'+enps.dPct+'%</strong> are detractors — nearly 1 in 3 people. Retention risk is real.'});
+
+  const fiveYearComments=data.filter(d=>d.five_year&&d.five_year!=='—'&&d.five_year.toString().toLowerCase().includes('no')).length;
+  if(fiveYearComments>0)insights.push({type:'info',icon:'📊',text:'<strong>'+fiveYearComments+'</strong> response'+(fiveYearComments>1?'s':'')+' indicate uncertainty about staying 5 years — review "5-Year Vision" comments below.'});
+
+  document.getElementById('insightsSection').innerHTML=insights.length?
+    insights.map(i=>'<div class="insight insight-'+i.type+'"><span class="insight-icon">'+i.icon+'</span><span>'+i.text+'</span></div>').join(''):
+    '<div class="empty-state">Submit more responses to unlock insights</div>';
+
+  // ===== TEAM BREAKDOWN =====
   if(filters.department==='All'){
     const depts=[...new Set(allData.map(d=>d.department))].filter(Boolean);
     let rows='';
@@ -433,14 +567,79 @@ function renderDashboard(){
       const dd=allData.filter(d=>d.department===dept);
       const e=calcNPS(dd,'enps_score');
       const m=calcNPS(dd,'mnps_score');
-      const eClr=e.score>0?'#34d399':e.score<0?'#f87171':'#fbbf24';
-      const mClr=m.score>0?'#34d399':m.score<0?'#f87171':'#fbbf24';
-      rows+='<tr><td>'+dept+'</td><td>'+dd.length+'</td><td style="font-weight:800;color:'+eClr+'">'+(e.score>0?'+':'')+e.score+'</td><td>'+e.avg+'/10</td><td style="font-weight:800;color:'+mClr+'">'+(m.score>0?'+':'')+m.score+'</td><td>'+m.avg+'/10</td></tr>';
+      rows+='<tr><td>'+dept+'</td><td>'+dd.length+'</td><td style="font-weight:800;color:'+npsColor(e.score)+'">'+(e.score>0?'+':'')+e.score+'</td><td>'+e.avg+'/10</td><td style="font-weight:800;color:'+npsColor(m.score)+'">'+(m.score>0?'+':'')+m.score+'</td><td>'+m.avg+'/10</td></tr>';
     });
     document.getElementById('teamBody').innerHTML=rows;
   } else {
-    document.getElementById('teamBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px">Select "All Teams" for team breakdown</td></tr>';
+    document.getElementById('teamBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px">Select "All Teams" for breakdown</td></tr>';
   }
+
+  // ===== DEMOGRAPHIC BREAKDOWNS =====
+  function renderDemoTable(bodyId,dimKey,extraCols){
+    const vals=[...new Set(data.map(d=>d[dimKey]))].filter(Boolean);
+    if(!vals.length){document.getElementById(bodyId).innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px">No data</td></tr>';return;}
+    let rows='';
+    vals.forEach(v=>{
+      const dd=data.filter(d=>d[dimKey]===v);
+      const e=calcNPS(dd,'enps_score');
+      const m=calcNPS(dd,'mnps_score');
+      let extra=extraCols.map(c=>fmtAvg(dimAvg(dd,c.key))).map(a=>'<td style="color:'+(parseFloat(a)>=3?'#34d399':parseFloat(a)>=2.5?'#fbbf24':'#f87171')+'">'+a+'</td>').join('');
+      rows+='<tr><td>'+v+'</td><td>'+dd.length+'</td><td style="font-weight:800;color:'+npsColor(e.score)+'">'+(e.score>0?'+':'')+e.score+'</td><td>'+e.avg+'/10</td>'+extra+'</tr>';
+    });
+    document.getElementById(bodyId).innerHTML=rows;
+  }
+  renderDemoTable('tenureBody','tenure',[{key:'mnps_score'},{key:'workload'}]);
+  renderDemoTable('roleBody','role_level',[{key:'pride'},{key:'growth_learn'}]);
+  renderDemoTable('workBody','work_mode',[{key:'wlb'},{key:'comm_leaders'}]);
+  renderDemoTable('ageBody','age_group',[{key:'authentic_self'},{key:'five_year'}]);
+
+  // Fix age table — five_year is text not numeric, use pride instead
+  renderDemoTable('ageBody','age_group',[{key:'authentic_self'},{key:'pride'}]);
+
+  // ===== HEATMAP =====
+  const heatDims=[
+    {key:'mgr_1on1',short:'Mgr 1:1'},{key:'mgr_feedback',short:'Mgr FB'},{key:'comm_voice',short:'Voice'},
+    {key:'growth_learn',short:'Growth'},{key:'rewards_fair',short:'Rewards'},{key:'wlb',short:'WLB'},
+    {key:'innovation',short:'Innov'},{key:'pride',short:'Pride'},{key:'workload',short:'Burnout'},
+    {key:'collaboration',short:'Collab'},{key:'tools_tech',short:'Tools'}
+  ];
+  const heatDepts=[...new Set(data.map(d=>d.department))].filter(Boolean);
+  if(heatDepts.length>1){
+    let hHTML='<table class="heatmap-table"><thead><tr><th>Team</th>';
+    heatDims.forEach(d=>{hHTML+='<th>'+d.short+'</th>';});
+    hHTML+='</tr></thead><tbody>';
+    heatDepts.forEach(dept=>{
+      const dd=data.filter(d=>d.department===dept);
+      hHTML+='<tr><td>'+dept+'</td>';
+      heatDims.forEach(dim=>{
+        const avg=dimAvg(dd,dim.key);
+        hHTML+='<td><span class="hm-cell" style="background:'+hmColor(avg)+';color:'+hmText(avg)+'">'+fmtAvg(avg)+'</span></td>';
+      });
+      hHTML+='</tr>';
+    });
+    hHTML+='</tbody></table>';
+    document.getElementById('heatmapSection').innerHTML=hHTML;
+  } else {
+    document.getElementById('heatmapSection').innerHTML='<div class="empty-state">Need responses from 2+ teams for heatmap</div>';
+  }
+
+  // ===== TOP 5 / BOTTOM 5 =====
+  const allDimItems=[];
+  groups.forEach(g=>{g.items.forEach(item=>{
+    const avg=dimAvg(data,item.key);
+    if(avg)allDimItems.push({label:item.label,avg,key:item.key});
+  });});
+  allDimItems.sort((a,b)=>b.avg-a.avg);
+  const top5=allDimItems.slice(0,5);
+  const bottom5=[...allDimItems].sort((a,b)=>a.avg-b.avg).slice(0,5);
+
+  document.getElementById('top5Section').innerHTML=top5.length?top5.map((d,i)=>
+    '<div class="rank-row"><span class="rank-num rank-green">'+(i+1)+'</span><span class="rank-label">'+d.label+'</span><span class="rank-val" style="color:#34d399">'+d.avg.toFixed(2)+'</span></div>'
+  ).join(''):'<div class="empty-state">No data yet</div>';
+
+  document.getElementById('bottom5Section').innerHTML=bottom5.length?bottom5.map((d,i)=>
+    '<div class="rank-row"><span class="rank-num rank-red">'+(i+1)+'</span><span class="rank-label">'+d.label+'</span><span class="rank-val" style="color:#f87171">'+d.avg.toFixed(2)+'</span></div>'
+  ).join(''):'<div class="empty-state">No data yet</div>';
 
   // Pulse dimensions grouped
   const groups=[
