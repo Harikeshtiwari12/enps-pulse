@@ -263,16 +263,40 @@ document.querySelectorAll('.dash-filter').forEach(bar=>{
 });
 
 // Field mapping from sheet headers to keys
+// Map all possible header formats to standard keys
 const fieldMap={
-  'enps_score':'enps_score','enps_category':'enps_category','department':'department','quarter':'quarter',
-  'mnps_score':'mnps_score','manager_nps':'mnps_score',
-  'enps_reason':'enps_reason','segue_answer':'segue_answer',
-  'mgr_1_1s':'mgr_1on1','mgr_feedback':'mgr_feedback','mgr_values_me':'mgr_values','mgr_ownership':'mgr_ownership','mgr_fair':'mgr_fair',
-  'align_company':'align_company','align_goals':'align_goals','voice':'comm_voice','transparent_feedback':'comm_transparent','leaders_communicate':'comm_leaders','peer_communication':'comm_peers',
-  'impact_orientation':'impact_orientation','impact_urgency':'impact_urgency','innovation':'innovation','values_aligned':'values_aligned','collaboration':'collaboration','decision_making':'decision_making',
-  'growth___learning':'growth_learn','rewards_fair':'rewards_fair','leaders_approachable':'leaders_approachable','leaders_display_values':'leaders_values','hiring_culture':'hiring_culture',
-  'work_life_balance':'wlb','mental_health':'mental_health','diversity_fair':'diversity_fair','safe___positive':'safe_positive','celebrates':'celebrates','resources':'resources','policies':'policies',
-  'what_works_well':'working_well','what_needs_change':'needs_change','manager_team_feedback':'mgr_team_feedback','culture_hr_feedback':'culture_hr','5_year_vision':'five_year'
+  // Direct matches
+  'timestamp':'timestamp','quarter':'quarter','department':'department',
+  'tenure':'tenure','role_level':'role_level','work_mode':'work_mode','age_group':'age_group',
+  'enps_score':'enps_score','enps_category':'enps_category','enps_reason':'enps_reason','segue_answer':'segue_answer',
+  'mnps_score':'mnps_score','mnps_category':'mnps_category',
+  // From sheet header format (lowercase, special chars replaced with _)
+  'manager_nps':'mnps_score','manager_nps_category':'mnps_category',
+  'mgr_1_1s':'mgr_1on1','mgr_1on1':'mgr_1on1','mgr_feedback':'mgr_feedback',
+  'mgr_values_me':'mgr_values','mgr_values':'mgr_values','mgr_ownership':'mgr_ownership','mgr_fair':'mgr_fair',
+  'align_company':'align_company','align_goals':'align_goals',
+  'voice':'comm_voice','comm_voice':'comm_voice',
+  'transparent_feedback':'comm_transparent','comm_transparent':'comm_transparent',
+  'leaders_communicate':'comm_leaders','comm_leaders':'comm_leaders',
+  'peer_communication':'comm_peers','comm_peers':'comm_peers',
+  'impact_orientation':'impact_orientation','impact_urgency':'impact_urgency',
+  'innovation':'innovation','values_aligned':'values_aligned','collaboration':'collaboration','decision_making':'decision_making',
+  'growth___learning':'growth_learn','growth_learn':'growth_learn','growth__learning':'growth_learn',
+  'rewards_fair':'rewards_fair',
+  'leaders_approachable':'leaders_approachable','leaders_display_values':'leaders_values','leaders_values':'leaders_values',
+  'hiring_culture':'hiring_culture',
+  'work_life_balance':'wlb','wlb':'wlb',
+  'mental_health':'mental_health','diversity_fair':'diversity_fair',
+  'safe___positive':'safe_positive','safe_positive':'safe_positive','safe__positive':'safe_positive',
+  'celebrates':'celebrates','resources':'resources','policies':'policies',
+  'pride':'pride','workload':'workload','authentic_self':'authentic_self',
+  'customer_impact':'customer_impact','tools_tech':'tools_tech','tools___tech':'tools_tech','tools__tech':'tools_tech',
+  'accomplishment':'accomplishment',
+  'what_works_well':'working_well','working_well':'working_well',
+  'what_needs_change':'needs_change','needs_change':'needs_change',
+  'manager_team_feedback':'mgr_team_feedback','mgr_team_feedback':'mgr_team_feedback',
+  'culture_hr_feedback':'culture_hr','culture_hr':'culture_hr',
+  '5_year_vision':'five_year','five_year':'five_year','_5_year_vision':'five_year'
 };
 
 function normalize(row){
@@ -289,14 +313,22 @@ function normalize(row){
 
 function loadData(){
   document.getElementById('responseCount').textContent='Loading responses...';
-  fetch(SHEET_URL)
-    .then(r=>r.json())
+  fetch(SHEET_URL,{redirect:'follow'})
+    .then(r=>{
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.json();
+    })
     .then(data=>{
-      allData=data.map(normalize);
+      // Filter out rows with empty keys or no department
+      allData=data.map(normalize).filter(d=>d.department&&d.department!==''&&d.enps_score>0);
+      if(!allData.length){
+        document.getElementById('responseCount').innerHTML='0 responses. <span style="color:var(--accent)">Clear your Google Sheet completely, then submit a test response to auto-create headers.</span>';
+        return;
+      }
       renderDashboard();
     })
     .catch(err=>{
-      document.getElementById('responseCount').textContent='Could not load data. Make sure the Apps Script is deployed correctly.';
+      document.getElementById('responseCount').innerHTML='Could not load data. <span style="color:var(--accent)">Check: (1) Apps Script deployed as "New version" (2) Access set to "Anyone"</span>';
     });
 }
 
