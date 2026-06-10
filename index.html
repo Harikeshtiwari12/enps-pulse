@@ -39,13 +39,18 @@ h1 .accent-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-
 .progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.4s ease;width:0%}
 .progress-text{font-size:0.55rem;font-weight:700;color:var(--muted);margin-top:6px;text-align:center}
 
+/* Pulse animation — from landing page */
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
 /* Steps */
 .step{display:none}
 .step.active{display:block}
 
-/* Card */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;transition:border-color 0.2s}
-.card:hover{border-color:rgba(255,255,255,0.12)}
+/* Card — matches landing page why-card style */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;transition:all 0.2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.2s}
+.card:hover{border-color:rgba(218,93,55,0.3);transform:translateY(-2px)}
+.card:hover::before{opacity:1}
 .card-label{font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;display:inline-flex;align-items:center;gap:8px}
 .card-label .cl-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.65rem}
 .cl-empathy{background:rgba(218,93,55,0.12);color:var(--accent)}
@@ -98,11 +103,13 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
 .nav-btn{flex:1;padding:14px;font-family:inherit;font-size:0.82rem;font-weight:800;border-radius:12px;cursor:pointer;transition:all 0.2s;border:none}
 .nav-back{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
 .nav-back:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
-.nav-next{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
-.nav-next:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.nav-next{background:var(--accent);color:#fff;letter-spacing:0.03em}
+.nav-next:hover{background:#c44e2b;transform:translateY(-1px);box-shadow:0 8px 32px rgba(218,93,55,0.35)}
 .nav-next:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
-.submit-btn{width:100%;padding:16px;font-family:inherit;font-size:0.9rem;font-weight:800;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s;margin-top:20px}
-.submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.submit-btn{width:100%;padding:16px;font-family:inherit;font-size:0.9rem;font-weight:800;border:none;border-radius:12px;cursor:pointer;background:var(--accent);color:#fff;transition:all 0.2s;margin-top:20px;letter-spacing:0.03em;display:flex;align-items:center;justify-content:center;gap:10px}
+.submit-btn:hover{background:#c44e2b;transform:translateY(-1px);box-shadow:0 8px 32px rgba(218,93,55,0.35)}
+.submit-btn .arrow{font-size:18px;transition:transform 0.2s}
+.submit-btn:hover .arrow{transform:translateX(4px)}
 .submit-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* Emoji reaction */
@@ -123,7 +130,8 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
 @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* Card pulse on complete */
-.card.completed{border-color:rgba(29,158,117,0.2);box-shadow:0 0 0 1px rgba(29,158,117,0.06)}
+.card.completed{border-color:rgba(29,158,117,0.25)}
+.card.completed::before{opacity:1;background:linear-gradient(90deg,var(--green),#34d399)}
 
 /* Success */
 .success-screen{display:none;text-align:center;padding:80px 20px}
@@ -160,8 +168,8 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
 <div id="surveyForm">
 
   <div class="header">
-    <div class="logo-icon">&#9878;</div>
-    <h1>Tran<span class="accent-text">Z</span>act Pulse</h1>
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:rgba(218,93,55,0.1);border:1px solid rgba(218,93,55,0.25);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite"></span> People OS</div>
+    <h1>Tran<span class="accent-text">Z</span>act <span style="color:var(--accent2)">Pulse</span></h1>
     <p class="subtitle">Quarterly Employee Engagement Survey</p>
     <div class="trust-badges">
       <span class="trust-badge badge-anon">100% Anonymous</span>
@@ -171,7 +179,7 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
   </div>
 
   <div class="intro-text">
-    Your honest voice shapes our culture. Every response is <strong>completely anonymous</strong> — no names, no emails, no tracking. Speak freely. We're listening.
+    Your honest voice shapes our culture. Every response is <strong>completely anonymous</strong> — no names, no emails, no tracking. Speak freely. <strong style="color:var(--accent)">We're listening.</strong>
   </div>
 
   <!-- Progress -->
@@ -391,7 +399,7 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
     <div class="nav-row">
       <button class="nav-btn nav-back" onclick="goStep(7)">Back</button>
     </div>
-    <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">Submit My Response</button>
+    <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">Submit My Response <span class="arrow">→</span></button>
   </div>
 
   <div class="footer">Your identity is never collected. Responses cannot be traced back to you.</div>
