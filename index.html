@@ -105,12 +105,39 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
 .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
 .submit-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
 
+/* Emoji reaction */
+.emoji-react{text-align:center;margin-top:14px;font-size:2rem;opacity:0;transform:scale(0.3) translateY(10px);transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1)}
+.emoji-react.show{opacity:1;transform:scale(1) translateY(0)}
+.emoji-label{font-size:0.6rem;font-weight:700;color:var(--muted);margin-top:4px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* Likert emoji inline */
+.likert-emoji{font-size:1.1rem;opacity:0;transform:scale(0);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);display:inline-block;margin-left:6px;vertical-align:middle}
+.likert-emoji.show{opacity:1;transform:scale(1)}
+
+/* Step encouragement */
+.step-encouragement{text-align:center;font-size:0.65rem;font-weight:600;color:var(--green);margin-top:12px;opacity:0;transform:translateY(8px);transition:all 0.4s ease;min-height:20px}
+.step-encouragement.show{opacity:1;transform:translateY(0)}
+
+/* Step slide animation */
+.step{animation:fadeSlideIn 0.35s ease}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* Card pulse on complete */
+.card.completed{border-color:rgba(29,158,117,0.2);box-shadow:0 0 0 1px rgba(29,158,117,0.06)}
+
 /* Success */
 .success-screen{display:none;text-align:center;padding:80px 20px}
-.success-check{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;animation:popIn 0.4s ease}
-@keyframes popIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-check{width:72px;height:72px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(1) rotate(0deg)}}
 .success-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
 .success-sub{font-size:0.8rem;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto}
+
+/* Confetti canvas */
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100}
+
+/* Floating particles on step complete */
+.particle{position:fixed;pointer-events:none;z-index:50;font-size:1.2rem;animation:floatUp 1.2s ease-out forwards}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(0.3)}}
 
 .footer{text-align:center;margin-top:32px;font-size:0.55rem;color:rgba(255,255,255,0.1);font-weight:600}
 
@@ -229,6 +256,7 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
       <div class="enps-q">How likely are you to recommend TranZact as a great place to work?</div>
       <div class="enps-scale" id="enpsScale"></div>
       <div class="scale-labels"><span>Not at all likely</span><span>Extremely likely</span></div>
+      <div class="emoji-react" id="enpsEmoji"><span id="enpsEmojiIcon"></span><div class="emoji-label" id="enpsEmojiLabel"></div></div>
       <div class="segue-box" id="segueBox">
         <div class="segue-label" id="segueLabel"></div>
         <textarea id="segueAnswer" placeholder="Share your thoughts..."></textarea>
@@ -252,6 +280,7 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
       <div class="enps-q" style="font-size:0.85rem">How likely are you to recommend your manager to your friends?</div>
       <div class="enps-scale" id="mnpsScale"></div>
       <div class="scale-labels"><span>Not at all likely</span><span>Extremely likely</span></div>
+      <div class="emoji-react" id="mnpsEmoji"><span id="mnpsEmojiIcon"></span><div class="emoji-label" id="mnpsEmojiLabel"></div></div>
     </div>
     <div class="card">
       <div class="card-label"><span class="cl-icon cl-communication">&#128172;</span> <span style="color:var(--muted)">Manager Relationship</span></div>
@@ -368,6 +397,8 @@ textarea::placeholder{color:rgba(255,255,255,0.12)}
   <div class="footer">Your identity is never collected. Responses cannot be traced back to you.</div>
 </div>
 
+<canvas id="confettiCanvas"></canvas>
+
 <!-- SUCCESS -->
 <div id="successScreen" class="success-screen">
   <div class="success-check">&#10003;</div>
@@ -387,9 +418,21 @@ const state={dept:'',tenure:'',role_level:'',work_mode:'',age_group:'',enps:null
 const likertState={};
 const openState={};
 
-// Build eNPS scales
+// Emoji maps
+const npsEmojis=[
+  {e:'😰',l:'We hear you'},{e:'😟',l:'We hear you'},{e:'😕',l:'We\'ll do better'},
+  {e:'😕',l:'We\'ll do better'},{e:'🤔',l:'Noted'},{e:'🤔',l:'Noted'},
+  {e:'😐',l:'Fair enough'},{e:'🙂',l:'Getting there'},{e:'😊',l:'Almost great!'},
+  {e:'😍',l:'You love it!'},{e:'🤩',l:'You\'re a rockstar fan!'}
+];
+const likertEmojis=['','😬','🤔','😊','🔥'];
+
+// Build eNPS scales with emoji reaction
 function buildScale(containerId,stateKey){
   const el=document.getElementById(containerId);
+  const emojiEl=document.getElementById(stateKey+'Emoji');
+  const emojiIcon=document.getElementById(stateKey+'EmojiIcon');
+  const emojiLabel=document.getElementById(stateKey+'EmojiLabel');
   for(let i=0;i<=10;i++){
     const btn=document.createElement('div');
     btn.className='enps-btn '+(i<=6?'detractor':i<=8?'passive':'promoter');
@@ -399,6 +442,16 @@ function buildScale(containerId,stateKey){
       el.querySelectorAll('.enps-btn').forEach(b=>b.classList.remove('active'));
       this.classList.add('active');
       state[stateKey]=parseInt(this.dataset.v);
+      // Emoji reaction
+      if(emojiEl){
+        emojiEl.classList.remove('show');
+        setTimeout(()=>{
+          emojiIcon.textContent=npsEmojis[state[stateKey]].e;
+          emojiLabel.textContent=npsEmojis[state[stateKey]].l;
+          emojiEl.classList.add('show');
+        },100);
+      }
+      // Segue for eNPS
       if(stateKey==='enps'){
         const sb=document.getElementById('segueBox');
         const sl=document.getElementById('segueLabel');
@@ -407,6 +460,9 @@ function buildScale(containerId,stateKey){
         else if(state.enps>=7){sl.textContent='You\'re neutral — what would take your experience from ordinary to great?';}
         else{sl.textContent='What\'s your biggest obstacle to a positive work experience here?';}
       }
+      // Button bounce
+      this.style.transform='scale(1.15)';
+      setTimeout(()=>{this.style.transform='';},200);
       validateStep();
     };
     el.appendChild(btn);
@@ -415,6 +471,81 @@ function buildScale(containerId,stateKey){
 buildScale('enpsScale','enps');
 buildScale('mnpsScale','mnps');
 
+// Floating particles on step complete
+function spawnParticles(emoji,count){
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.textContent=emoji;
+    p.style.left=(30+Math.random()*40)+'%';
+    p.style.top=(40+Math.random()*30)+'%';
+    p.style.animationDelay=(Math.random()*0.3)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1500);
+  }
+}
+
+// Step encouragement messages
+const stepMessages={
+  2:'Great start! Your voice matters here.',
+  3:'Almost halfway! You\'re doing amazing.',
+  4:'Every answer shapes our culture.',
+  5:'You\'re flying through this!',
+  6:'So close — keep going!',
+  7:'Last stretch — you\'ve got this!',
+  8:'Final step! Speak your mind freely.'
+};
+
+// Confetti on submit
+function fireConfetti(){
+  const canvas=document.getElementById('confettiCanvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const pieces=[];
+  const colors=['#da5d37','#df7afe','#34d399','#fbbf24','#60a5fa','#f87171','#fff'];
+  for(let i=0;i<120;i++){
+    pieces.push({
+      x:canvas.width/2+(Math.random()-0.5)*200,
+      y:canvas.height/2-100,
+      vx:(Math.random()-0.5)*12,
+      vy:Math.random()*-14-4,
+      w:Math.random()*8+4,
+      h:Math.random()*6+3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rotation:Math.random()*360,
+      rv:(Math.random()-0.5)*12,
+      gravity:0.35+Math.random()*0.15,
+      opacity:1
+    });
+  }
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    pieces.forEach(p=>{
+      if(p.opacity<=0)return;
+      alive=true;
+      p.x+=p.vx;
+      p.vy+=p.gravity;
+      p.y+=p.vy;
+      p.rotation+=p.rv;
+      if(frame>60)p.opacity-=0.015;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rotation*Math.PI/180);
+      ctx.globalAlpha=Math.max(0,p.opacity);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    frame++;
+    if(alive)requestAnimationFrame(draw);
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);}
+  }
+  draw();
+}
+
 // Demographics
 document.getElementById('deptSelect').onchange=function(){state.dept=this.value;validateStep();};
 document.getElementById('tenureSelect').onchange=function(){state.tenure=this.value;validateStep();};
@@ -422,14 +553,35 @@ document.getElementById('roleLevelSelect').onchange=function(){state.role_level=
 document.getElementById('workModeSelect').onchange=function(){state.work_mode=this.value;validateStep();};
 document.getElementById('ageGroupSelect').onchange=function(){state.age_group=this.value;validateStep();};
 
-// Likert buttons
+// Likert buttons with emoji feedback
 document.querySelectorAll('.likert-btns').forEach(group=>{
   const qKey=group.dataset.q;
+  // Add emoji span
+  const emojiSpan=document.createElement('span');
+  emojiSpan.className='likert-emoji';
+  emojiSpan.id='emoji_'+qKey;
+  group.parentElement.querySelector('.lq-text').appendChild(emojiSpan);
+
   group.querySelectorAll('.likert-btn').forEach(btn=>{
     btn.onclick=function(){
       group.querySelectorAll('.likert-btn').forEach(b=>b.classList.remove('active'));
       this.classList.add('active');
       likertState[qKey]=parseInt(this.dataset.v);
+      // Show emoji
+      const em=document.getElementById('emoji_'+qKey);
+      em.classList.remove('show');
+      setTimeout(()=>{
+        em.textContent=likertEmojis[likertState[qKey]];
+        em.classList.add('show');
+      },80);
+      // Button bounce
+      this.style.transform='scale(1.08)';
+      setTimeout(()=>{this.style.transform='';},180);
+      // Check if card is complete
+      const card=this.closest('.card');
+      const allBtns=card.querySelectorAll('.likert-btns');
+      const allDone=[...allBtns].every(g=>g.querySelector('.likert-btn.active'));
+      if(allDone)card.classList.add('completed');
       validateStep();
     };
   });
@@ -453,12 +605,20 @@ function validateStep(){
 }
 
 function goStep(n){
+  const goingForward=n>currentStep;
   document.querySelector('.step.active').classList.remove('active');
-  document.querySelector('[data-step="'+n+'"]').classList.add('active');
+  const nextStep=document.querySelector('[data-step="'+n+'"]');
+  nextStep.classList.add('active');
   currentStep=n;
   const pct=Math.round(((n-1)/(TOTAL_STEPS-1))*100);
   document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressText').textContent='Step '+n+' of '+TOTAL_STEPS;
+  const msg=stepMessages[n]||('Step '+n+' of '+TOTAL_STEPS);
+  document.getElementById('progressText').textContent=goingForward?msg:'Step '+n+' of '+TOTAL_STEPS;
+  // Particles on forward navigation
+  if(goingForward){
+    const emojis=['✨','🎯','💪','🚀','⭐','🔥'];
+    spawnParticles(emojis[Math.floor(Math.random()*emojis.length)],5);
+  }
   validateStep();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -501,6 +661,9 @@ function submitSurvey(){
 function showSuccess(){
   document.getElementById('surveyForm').style.display='none';
   document.getElementById('successScreen').style.display='block';
+  fireConfetti();
+  // Second burst
+  setTimeout(fireConfetti,800);
 }
 </script>
 </body>
