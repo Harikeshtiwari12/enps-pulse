@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TranZact Pulse Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0f0c;--surface:#1c1a1a;--surface2:#242424;--accent:#da5d37;--accent2:#df7afe;
+  --green:rgb(39,133,137);--text:#eaece5;--muted:#858a8e;--border:rgba(255,255,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.glow-top{position:fixed;top:-300px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(218,93,55,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+.glow-purple{position:fixed;bottom:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(223,122,254,0.04) 0%,transparent 70%);pointer-events:none;z-index:0}
+.container{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:60px 1.5rem 80px}
+
+.header{text-align:center;margin-bottom:48px}
+.logo-icon{width:44px;height:44px;margin:0 auto 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-0.02em;line-height:1.1}
+h1 .accent-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.anon-badge{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;border-radius:100px;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--green);border:1px solid rgba(39,133,137,0.3);background:rgba(39,133,137,0.08)}
+.anon-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;transition:border-color 0.2s}
+.card:hover{border-color:rgba(255,255,255,0.12)}
+.card-label{font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px}
+
+/* Department select */
+select{width:100%;padding:12px 16px;font-family:inherit;font-size:0.85rem;font-weight:600;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23858a8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+select:focus{border-color:rgba(218,93,55,0.4)}
+
+/* eNPS Scale */
+.enps-question{font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.5}
+.enps-sub{font-size:0.7rem;color:var(--muted);margin-bottom:18px}
+.enps-scale{display:flex;gap:6px;flex-wrap:wrap}
+.enps-btn{flex:1;min-width:42px;padding:12px 4px;text-align:center;font-family:inherit;font-size:0.85rem;font-weight:800;border-radius:10px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
+.enps-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.enps-btn.detractor.active{background:rgba(226,75,74,0.15);border-color:#E24B4A;color:#f87171}
+.enps-btn.passive.active{background:rgba(239,159,39,0.15);border-color:#EF9F27;color:#fbbf24}
+.enps-btn.promoter.active{background:rgba(29,158,117,0.15);border-color:#1D9E75;color:#34d399}
+.scale-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:0.55rem;font-weight:600;color:rgba(255,255,255,0.15);text-transform:uppercase;letter-spacing:0.06em}
+
+/* Pulse ratings */
+.pulse-q{margin-bottom:20px}
+.pulse-q:last-child{margin-bottom:0}
+.pulse-text{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.5}
+.pulse-btns{display:flex;gap:6px}
+.pulse-btn{flex:1;padding:10px 4px;text-align:center;font-family:inherit;font-size:0.75rem;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
+.pulse-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.pulse-btn.active{background:linear-gradient(135deg,rgba(218,93,55,0.15),rgba(223,122,254,0.1));border-color:var(--accent);color:var(--text)}
+.pulse-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:0.5rem;font-weight:600;color:rgba(255,255,255,0.15);text-transform:uppercase;letter-spacing:0.06em}
+
+/* Textarea */
+textarea{width:100%;padding:14px 16px;font-family:inherit;font-size:0.82rem;font-weight:500;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;resize:vertical;min-height:100px;line-height:1.7}
+textarea:focus{border-color:rgba(218,93,55,0.4)}
+textarea::placeholder{color:rgba(255,255,255,0.15)}
+
+/* Submit */
+.submit-btn{width:100%;padding:16px;font-family:inherit;font-size:0.9rem;font-weight:800;letter-spacing:0.02em;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s;margin-top:8px}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.submit-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Success */
+.success-screen{display:none;text-align:center;padding:80px 20px}
+.success-icon{font-size:3rem;margin-bottom:20px}
+.success-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.success-sub{font-size:0.8rem;color:var(--muted);line-height:1.6}
+
+/* Quarter badge */
+.quarter-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.06);margin-top:12px}
+
+.footer{text-align:center;margin-top:40px;font-size:0.6rem;color:rgba(255,255,255,0.12);font-weight:600}
+
+@media(max-width:480px){
+  .container{padding:40px 1rem 60px}
+  .enps-scale{gap:4px}
+  .enps-btn{min-width:28px;padding:10px 2px;font-size:0.75rem}
+  .pulse-btns{gap:4px}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-top"></div>
+<div class="glow-purple"></div>
+
+<div class="container">
+
+  <!-- SURVEY FORM -->
+  <div id="surveyForm">
+    <div class="header">
+      <div class="logo-icon">&#9878;</div>
+      <h1>Tran<span class="accent-text">Z</span>act Pulse</h1>
+      <p class="subtitle">Quarterly eNPS Survey</p>
+      <div class="anon-badge">100% Anonymous</div>
+      <div class="quarter-badge" id="quarterBadge"></div>
+    </div>
+
+    <!-- Department -->
+    <div class="card">
+      <div class="card-label">Your Department</div>
+      <select id="deptSelect">
+        <option value="">Select your department...</option>
+        <option value="Sales">Sales</option>
+        <option value="Customer Experience">Customer Experience</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Product">Product</option>
+        <option value="Growth Marketing">Growth Marketing</option>
+        <option value="Channel Partnerships">Channel Partnerships</option>
+        <option value="People">People</option>
+        <option value="Leadership">Leadership</option>
+      </select>
+    </div>
+
+    <!-- eNPS Core -->
+    <div class="card">
+      <div class="card-label">Net Promoter Score</div>
+      <div class="enps-question">How likely are you to recommend TranZact as a great place to work?</div>
+      <div class="enps-sub">0 = Not at all likely &nbsp;&middot;&nbsp; 10 = Extremely likely</div>
+      <div class="enps-scale" id="enpsScale"></div>
+      <div class="scale-labels"><span>Not likely</span><span>Neutral</span><span>Extremely likely</span></div>
+    </div>
+
+    <!-- Pulse Questions -->
+    <div class="card">
+      <div class="card-label">Pulse Check</div>
+
+      <div class="pulse-q">
+        <div class="pulse-text">My manager supports my growth and gives me regular, useful feedback.</div>
+        <div class="pulse-btns" data-q="manager">
+          <div class="pulse-btn" data-v="1">1</div>
+          <div class="pulse-btn" data-v="2">2</div>
+          <div class="pulse-btn" data-v="3">3</div>
+          <div class="pulse-btn" data-v="4">4</div>
+          <div class="pulse-btn" data-v="5">5</div>
+        </div>
+        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+      </div>
+
+      <div class="pulse-q">
+        <div class="pulse-text">I have real opportunities to learn, grow, and advance my career here.</div>
+        <div class="pulse-btns" data-q="growth">
+          <div class="pulse-btn" data-v="1">1</div>
+          <div class="pulse-btn" data-v="2">2</div>
+          <div class="pulse-btn" data-v="3">3</div>
+          <div class="pulse-btn" data-v="4">4</div>
+          <div class="pulse-btn" data-v="5">5</div>
+        </div>
+        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+      </div>
+
+      <div class="pulse-q">
+        <div class="pulse-text">I feel a genuine sense of belonging and alignment with TranZact's culture.</div>
+        <div class="pulse-btns" data-q="culture">
+          <div class="pulse-btn" data-v="1">1</div>
+          <div class="pulse-btn" data-v="2">2</div>
+          <div class="pulse-btn" data-v="3">3</div>
+          <div class="pulse-btn" data-v="4">4</div>
+          <div class="pulse-btn" data-v="5">5</div>
+        </div>
+        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+      </div>
+
+      <div class="pulse-q">
+        <div class="pulse-text">I'm able to maintain a healthy balance between work and personal life.</div>
+        <div class="pulse-btns" data-q="worklife">
+          <div class="pulse-btn" data-v="1">1</div>
+          <div class="pulse-btn" data-v="2">2</div>
+          <div class="pulse-btn" data-v="3">3</div>
+          <div class="pulse-btn" data-v="4">4</div>
+          <div class="pulse-btn" data-v="5">5</div>
+        </div>
+        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+      </div>
+
+      <div class="pulse-q">
+        <div class="pulse-text">Leadership communicates openly and I understand where the company is headed.</div>
+        <div class="pulse-btns" data-q="communication">
+          <div class="pulse-btn" data-v="1">1</div>
+          <div class="pulse-btn" data-v="2">2</div>
+          <div class="pulse-btn" data-v="3">3</div>
+          <div class="pulse-btn" data-v="4">4</div>
+          <div class="pulse-btn" data-v="5">5</div>
+        </div>
+        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+      </div>
+    </div>
+
+    <!-- Open Feedback -->
+    <div class="card">
+      <div class="card-label">Open Feedback</div>
+      <textarea id="feedback" placeholder="What's the primary reason for your score? What can we do better? (Optional)"></textarea>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" disabled onclick="submitSurvey()">Submit Response</button>
+
+    <div class="footer">Your response is completely anonymous. No names or emails are collected.</div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div id="successScreen" class="success-screen">
+    <div class="success-icon">&#10003;</div>
+    <div class="success-title">Thank you!</div>
+    <div class="success-sub">Your anonymous response has been recorded.<br>Your voice matters — it helps us build a better TranZact.</div>
+  </div>
+
+</div>
+
+<script>
+// Quarter badge
+const now=new Date(),q=Math.ceil((now.getMonth()+1)/3),yr=now.getFullYear();
+document.getElementById('quarterBadge').textContent='Q'+q+' '+yr;
+
+// eNPS scale
+const enpsScale=document.getElementById('enpsScale');
+for(let i=0;i<=10;i++){
+  const btn=document.createElement('div');
+  btn.className='enps-btn '+(i<=6?'detractor':i<=8?'passive':'promoter');
+  btn.textContent=i;
+  btn.dataset.v=i;
+  btn.onclick=function(){
+    enpsScale.querySelectorAll('.enps-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    state.enps=parseInt(this.dataset.v);
+    checkReady();
+  };
+  enpsScale.appendChild(btn);
+}
+
+// State
+const state={dept:'',enps:null,manager:null,growth:null,culture:null,worklife:null,communication:null};
+
+// Dept
+document.getElementById('deptSelect').onchange=function(){
+  state.dept=this.value;
+  checkReady();
+};
+
+// Pulse buttons
+document.querySelectorAll('.pulse-btns').forEach(group=>{
+  const q=group.dataset.q;
+  group.querySelectorAll('.pulse-btn').forEach(btn=>{
+    btn.onclick=function(){
+      group.querySelectorAll('.pulse-btn').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      state[q]=parseInt(this.dataset.v);
+      checkReady();
+    };
+  });
+});
+
+function checkReady(){
+  const ready=state.dept&&state.enps!==null&&state.manager&&state.growth&&state.culture&&state.worklife&&state.communication;
+  document.getElementById('submitBtn').disabled=!ready;
+}
+
+// Google Sheets endpoint
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyFhaDbyD1NfYUBuV4RCK8fOWm88HMcLhU1gShPuVWniA_Ql-K81jHhSubjA0muQukIWw/exec';
+
+function submitSurvey(){
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Submitting...';
+
+  const category=state.enps<=6?'Detractor':state.enps<=8?'Passive':'Promoter';
+  const payload={
+    timestamp:new Date().toISOString(),
+    quarter:'Q'+q+' '+yr,
+    department:state.dept,
+    enps_score:state.enps,
+    enps_category:category,
+    manager_support:state.manager,
+    growth_learning:state.growth,
+    culture_belonging:state.culture,
+    work_life_balance:state.worklife,
+    communication_transparency:state.communication,
+    feedback:document.getElementById('feedback').value.trim()||'—'
+  };
+
+  fetch(SHEET_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(()=>{
+    document.getElementById('surveyForm').style.display='none';
+    document.getElementById('successScreen').style.display='block';
+  }).catch(()=>{
+    document.getElementById('surveyForm').style.display='none';
+    document.getElementById('successScreen').style.display='block';
+  });
+}
+</script>
+</body>
+</html>

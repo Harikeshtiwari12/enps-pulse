@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TranZact Pulse — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0f0c;--surface:#1c1a1a;--surface2:#242424;--accent:#da5d37;--accent2:#df7afe;
+  --green:rgb(39,133,137);--text:#eaece5;--muted:#858a8e;--border:rgba(255,255,255,0.08);
+  --red:#E24B4A;--yellow:#EF9F27;--blue:#378ADD;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.glow-top{position:fixed;top:-300px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(218,93,55,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+.glow-purple{position:fixed;bottom:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(223,122,254,0.04) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* Login */
+.login-screen{position:relative;z-index:1;max-width:400px;margin:0 auto;padding:120px 1.5rem;text-align:center}
+.login-screen h2{font-size:1.4rem;font-weight:900;margin-bottom:24px}
+.login-input{width:100%;padding:14px 16px;font-family:inherit;font-size:0.85rem;font-weight:600;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;text-align:center;letter-spacing:0.1em;margin-bottom:12px}
+.login-input:focus{border-color:rgba(218,93,55,0.4)}
+.login-btn{width:100%;padding:14px;font-family:inherit;font-size:0.85rem;font-weight:800;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.login-error{font-size:0.7rem;color:var(--red);margin-top:10px;display:none}
+
+/* Dashboard */
+.dashboard{display:none;position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 2rem 80px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:12px}
+.dash-title{font-size:1.3rem;font-weight:900}
+.dash-title .accent-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dash-quarter{font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.06)}
+.dash-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filter-btn{padding:7px 16px;font-family:inherit;font-size:0.68rem;font-weight:700;border-radius:100px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);transition:all 0.15s}
+.filter-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.filter-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+
+/* Score cards */
+.score-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.score-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:all 0.2s}
+.score-card:hover{border-color:rgba(255,255,255,0.12)}
+.sc-label{font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:10px}
+.sc-value{font-size:2.2rem;font-weight:900;letter-spacing:-0.02em}
+.sc-value.positive{color:#34d399}
+.sc-value.neutral{color:#fbbf24}
+.sc-value.negative{color:#f87171}
+.sc-sub{font-size:0.6rem;color:var(--muted);margin-top:6px;font-weight:600}
+
+/* Breakdown bar */
+.breakdown-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:10px}
+.bb-promoter{background:#1D9E75}
+.bb-passive{background:#EF9F27}
+.bb-detractor{background:#E24B4A}
+
+/* Sections */
+.section{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:all 0.2s}
+.section:hover{border-color:rgba(255,255,255,0.12)}
+.section-header{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-body{padding:16px 20px}
+
+/* Team table */
+.team-table{width:100%;border-collapse:collapse}
+.team-table th{font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+.team-table td{font-size:0.78rem;font-weight:600;padding:10px;border-bottom:1px solid var(--border);color:var(--text)}
+.team-table tr:last-child td{border-bottom:none}
+.team-table .enps-cell{font-weight:800;font-size:0.85rem}
+
+/* Pulse bars */
+.pulse-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.pulse-row:last-child{border-bottom:none}
+.pulse-label{flex:0 0 220px;font-size:0.75rem;font-weight:600;color:var(--muted)}
+.pulse-bar-wrap{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.pulse-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.5s ease}
+.pulse-avg{flex:0 0 40px;text-align:right;font-size:0.8rem;font-weight:800;color:var(--text)}
+
+/* Comments */
+.comment{padding:12px 16px;background:var(--surface2);border-radius:10px;margin-bottom:10px;font-size:0.78rem;color:var(--muted);line-height:1.7;border-left:3px solid var(--accent)}
+.comment-meta{font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.15);margin-top:6px;text-transform:uppercase;letter-spacing:0.06em}
+
+.empty-state{text-align:center;padding:40px 20px;font-size:0.8rem;color:var(--muted)}
+
+.responses-count{font-size:0.6rem;font-weight:600;color:var(--muted);margin-bottom:16px}
+
+@media(max-width:640px){
+  .dashboard{padding:24px 1rem 60px}
+  .score-row{grid-template-columns:1fr 1fr}
+  .pulse-label{flex:0 0 140px;font-size:0.65rem}
+  .team-table{font-size:0.7rem}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-top"></div>
+<div class="glow-purple"></div>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <h2>Admin Access</h2>
+  <input type="password" class="login-input" id="passInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+  <button class="login-btn" onclick="doLogin()">Unlock Dashboard</button>
+  <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <div class="dash-header">
+    <div>
+      <div class="dash-title">Tran<span class="accent-text">Z</span>act Pulse — Dashboard</div>
+    </div>
+    <div class="dash-quarter" id="dashQuarter"></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="dash-filter" id="filters">
+    <button class="filter-btn active" data-dept="All">All Teams</button>
+    <button class="filter-btn" data-dept="Sales">Sales</button>
+    <button class="filter-btn" data-dept="Customer Experience">CX</button>
+    <button class="filter-btn" data-dept="Engineering">Engineering</button>
+    <button class="filter-btn" data-dept="Product">Product</button>
+    <button class="filter-btn" data-dept="Growth Marketing">Growth</button>
+    <button class="filter-btn" data-dept="Channel Partnerships">Channel</button>
+    <button class="filter-btn" data-dept="People">People</button>
+    <button class="filter-btn" data-dept="Leadership">Leadership</button>
+  </div>
+
+  <div id="responseCount" class="responses-count"></div>
+
+  <!-- Score Cards -->
+  <div class="score-row" id="scoreRow">
+    <div class="score-card">
+      <div class="sc-label">eNPS Score</div>
+      <div class="sc-value" id="enpsScore">—</div>
+      <div class="sc-sub" id="enpsSub"></div>
+      <div class="breakdown-bar" id="breakdownBar"></div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Promoters (9-10)</div>
+      <div class="sc-value positive" id="promoterPct">—</div>
+      <div class="sc-sub" id="promoterCount"></div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Passives (7-8)</div>
+      <div class="sc-value neutral" id="passivePct">—</div>
+      <div class="sc-sub" id="passiveCount"></div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">Detractors (0-6)</div>
+      <div class="sc-value negative" id="detractorPct">—</div>
+      <div class="sc-sub" id="detractorCount"></div>
+    </div>
+  </div>
+
+  <!-- Team Breakdown -->
+  <div class="section">
+    <div class="section-header">Team-wise eNPS</div>
+    <div class="section-body">
+      <table class="team-table" id="teamTable">
+        <thead><tr><th>Department</th><th>Responses</th><th>eNPS</th><th>Avg Score</th></tr></thead>
+        <tbody id="teamBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pulse Averages -->
+  <div class="section">
+    <div class="section-header">Pulse Dimensions</div>
+    <div class="section-body" id="pulseSection"></div>
+  </div>
+
+  <!-- Comments -->
+  <div class="section">
+    <div class="section-header">Anonymous Feedback</div>
+    <div class="section-body" id="commentsSection"></div>
+  </div>
+
+</div>
+
+<script>
+const ADMIN_PASS='TranZact@Pulse2026';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyFhaDbyD1NfYUBuV4RCK8fOWm88HMcLhU1gShPuVWniA_Ql-K81jHhSubjA0muQukIWw/exec';
+
+const now=new Date(),q=Math.ceil((now.getMonth()+1)/3),yr=now.getFullYear();
+document.getElementById('dashQuarter').textContent='Q'+q+' '+yr;
+
+function doLogin(){
+  const pass=document.getElementById('passInput').value;
+  if(pass===ADMIN_PASS){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    loadData();
+  } else {
+    document.getElementById('loginError').style.display='block';
+  }
+}
+
+let allData=[];
+let currentFilter='All';
+
+// Filters
+document.getElementById('filters').addEventListener('click',function(e){
+  if(!e.target.classList.contains('filter-btn'))return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  currentFilter=e.target.dataset.dept;
+  renderDashboard();
+});
+
+function loadData(){
+  fetch(SHEET_URL)
+    .then(r=>r.json())
+    .then(data=>{
+      allData=data;
+      renderDashboard();
+    })
+    .catch(()=>{
+      // Demo data for testing
+      allData=[
+        {department:"Sales",enps_score:9,enps_category:"Promoter",manager_support:4,growth_learning:5,culture_belonging:4,work_life_balance:3,communication_transparency:4,feedback:"Great energy in the team!",quarter:"Q2 2026"},
+        {department:"Sales",enps_score:7,enps_category:"Passive",manager_support:3,growth_learning:3,culture_belonging:4,work_life_balance:4,communication_transparency:3,feedback:"Need more clarity on targets.",quarter:"Q2 2026"},
+        {department:"Engineering",enps_score:10,enps_category:"Promoter",manager_support:5,growth_learning:5,culture_belonging:5,work_life_balance:4,communication_transparency:4,feedback:"Love the tech stack and autonomy.",quarter:"Q2 2026"},
+        {department:"Engineering",enps_score:5,enps_category:"Detractor",manager_support:2,growth_learning:3,culture_belonging:3,work_life_balance:2,communication_transparency:2,feedback:"Burnout is real. Need better WLB.",quarter:"Q2 2026"},
+        {department:"Customer Experience",enps_score:8,enps_category:"Passive",manager_support:4,growth_learning:3,culture_belonging:4,work_life_balance:3,communication_transparency:3,feedback:"Good team, but processes can improve.",quarter:"Q2 2026"},
+        {department:"Customer Experience",enps_score:9,enps_category:"Promoter",manager_support:5,growth_learning:4,culture_belonging:5,work_life_balance:4,communication_transparency:4,feedback:"—",quarter:"Q2 2026"},
+        {department:"Product",enps_score:8,enps_category:"Passive",manager_support:4,growth_learning:4,culture_belonging:4,work_life_balance:3,communication_transparency:4,feedback:"Would love more cross-team collab.",quarter:"Q2 2026"},
+        {department:"Growth Marketing",enps_score:10,enps_category:"Promoter",manager_support:5,growth_learning:5,culture_belonging:5,work_life_balance:5,communication_transparency:5,feedback:"Best place I've worked!",quarter:"Q2 2026"},
+        {department:"Channel Partnerships",enps_score:6,enps_category:"Detractor",manager_support:3,growth_learning:2,culture_belonging:3,work_life_balance:3,communication_transparency:2,feedback:"Need more support from leadership.",quarter:"Q2 2026"},
+        {department:"People",enps_score:9,enps_category:"Promoter",manager_support:5,growth_learning:4,culture_belonging:5,work_life_balance:4,communication_transparency:5,feedback:"Culture is our superpower.",quarter:"Q2 2026"}
+      ];
+      renderDashboard();
+    });
+}
+
+function renderDashboard(){
+  const data=currentFilter==='All'?allData:allData.filter(d=>d.department===currentFilter);
+  const total=data.length;
+
+  document.getElementById('responseCount').textContent=total+' response'+(total!==1?'s':'')+' collected';
+
+  if(total===0){
+    document.getElementById('enpsScore').textContent='—';
+    document.getElementById('enpsSub').textContent='';
+    document.getElementById('promoterPct').textContent='—';
+    document.getElementById('passivePct').textContent='—';
+    document.getElementById('detractorPct').textContent='—';
+    document.getElementById('promoterCount').textContent='';
+    document.getElementById('passiveCount').textContent='';
+    document.getElementById('detractorCount').textContent='';
+    document.getElementById('breakdownBar').innerHTML='';
+    document.getElementById('teamBody').innerHTML='';
+    document.getElementById('pulseSection').innerHTML='<div class="empty-state">No responses yet</div>';
+    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No feedback yet</div>';
+    return;
+  }
+
+  const promoters=data.filter(d=>d.enps_score>=9).length;
+  const passives=data.filter(d=>d.enps_score>=7&&d.enps_score<=8).length;
+  const detractors=data.filter(d=>d.enps_score<=6).length;
+  const pPct=Math.round(promoters/total*100);
+  const dPct=Math.round(detractors/total*100);
+  const paPct=Math.round(passives/total*100);
+  const enps=pPct-dPct;
+
+  const el=document.getElementById('enpsScore');
+  el.textContent=(enps>0?'+':'')+enps;
+  el.className='sc-value '+(enps>0?'positive':enps<0?'negative':'neutral');
+  document.getElementById('enpsSub').textContent='% Promoters - % Detractors';
+
+  document.getElementById('promoterPct').textContent=pPct+'%';
+  document.getElementById('promoterCount').textContent=promoters+' of '+total;
+  document.getElementById('passivePct').textContent=paPct+'%';
+  document.getElementById('passiveCount').textContent=passives+' of '+total;
+  document.getElementById('detractorPct').textContent=dPct+'%';
+  document.getElementById('detractorCount').textContent=detractors+' of '+total;
+
+  document.getElementById('breakdownBar').innerHTML=
+    '<div class="bb-promoter" style="width:'+pPct+'%"></div>'+
+    '<div class="bb-passive" style="width:'+paPct+'%"></div>'+
+    '<div class="bb-detractor" style="width:'+dPct+'%"></div>';
+
+  // Team breakdown
+  if(currentFilter==='All'){
+    const depts=[...new Set(allData.map(d=>d.department))];
+    let rows='';
+    depts.forEach(dept=>{
+      const dd=allData.filter(d=>d.department===dept);
+      const t=dd.length;
+      const p=dd.filter(d=>d.enps_score>=9).length;
+      const de=dd.filter(d=>d.enps_score<=6).length;
+      const e=Math.round(p/t*100)-Math.round(de/t*100);
+      const avg=(dd.reduce((s,d)=>s+d.enps_score,0)/t).toFixed(1);
+      const cls=e>0?'positive':e<0?'negative':'neutral';
+      rows+='<tr><td>'+dept+'</td><td>'+t+'</td><td class="enps-cell" style="color:'+(e>0?'#34d399':e<0?'#f87171':'#fbbf24')+'">'+(e>0?'+':'')+e+'</td><td>'+avg+'/10</td></tr>';
+    });
+    document.getElementById('teamBody').innerHTML=rows;
+  } else {
+    document.getElementById('teamBody').innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px">Showing filtered view — select "All Teams" for breakdown</td></tr>';
+  }
+
+  // Pulse
+  const dims=[
+    {key:'manager_support',label:'Manager Support'},
+    {key:'growth_learning',label:'Growth & Learning'},
+    {key:'culture_belonging',label:'Culture & Belonging'},
+    {key:'work_life_balance',label:'Work-Life Balance'},
+    {key:'communication_transparency',label:'Communication & Transparency'}
+  ];
+  let pulseHTML='';
+  dims.forEach(d=>{
+    const vals=data.map(r=>parseInt(r[d.key])||0).filter(v=>v>0);
+    const avg=vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1):'—';
+    const pct=vals.length?((avg/5)*100).toFixed(0):0;
+    pulseHTML+='<div class="pulse-row"><div class="pulse-label">'+d.label+'</div><div class="pulse-bar-wrap"><div class="pulse-bar-fill" style="width:'+pct+'%"></div></div><div class="pulse-avg">'+avg+'</div></div>';
+  });
+  document.getElementById('pulseSection').innerHTML=pulseHTML;
+
+  // Comments
+  const comments=data.filter(d=>d.feedback&&d.feedback!=='—'&&d.feedback.trim());
+  if(comments.length){
+    let cHTML='';
+    comments.forEach(c=>{
+      cHTML+='<div class="comment">'+c.feedback.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'<div class="comment-meta">'+c.department+' &middot; '+c.quarter+'</div></div>';
+    });
+    document.getElementById('commentsSection').innerHTML=cHTML;
+  } else {
+    document.getElementById('commentsSection').innerHTML='<div class="empty-state">No written feedback for this filter</div>';
+  }
+}
+</script>
+</body>
+</html>
