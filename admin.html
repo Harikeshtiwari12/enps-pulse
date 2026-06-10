@@ -16,30 +16,52 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .glow-top{position:fixed;top:-300px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(218,93,55,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
 .glow-purple{position:fixed;bottom:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(223,122,254,0.04) 0%,transparent 70%);pointer-events:none;z-index:0}
 
+/* Pulse animation */
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+/* Nav bar — from landing page */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;background:rgba(28,26,26,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:13px;font-weight:700;color:var(--text);letter-spacing:0.04em}
+.nav-brand span{color:var(--accent)}
+.nav-pill{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;background:rgba(218,93,55,0.12);border:1px solid rgba(218,93,55,0.3);color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
+.nav-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+
 /* Login */
-.login-screen{position:relative;z-index:1;max-width:400px;margin:0 auto;padding:120px 1.5rem;text-align:center}
-.login-screen h2{font-size:1.4rem;font-weight:900;margin-bottom:24px}
+.login-screen{position:relative;z-index:1;max-width:400px;margin:0 auto;padding:140px 1.5rem 80px;text-align:center}
+.login-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:rgba(218,93,55,0.1);border:1px solid rgba(218,93,55,0.25);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem}
+.login-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+.login-screen h2{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:900;margin-bottom:8px;color:#fff}
+.login-screen h2 .highlight{color:var(--accent)}
+.login-sub{font-size:0.75rem;color:var(--muted);margin-bottom:24px;font-weight:500}
 .login-input{width:100%;padding:14px 16px;font-family:inherit;font-size:0.85rem;font-weight:600;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;text-align:center;letter-spacing:0.1em;margin-bottom:12px}
 .login-input:focus{border-color:rgba(218,93,55,0.4)}
-.login-btn{width:100%;padding:14px;font-family:inherit;font-size:0.85rem;font-weight:800;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s}
-.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.login-btn{width:100%;padding:14px;font-family:inherit;font-size:0.85rem;font-weight:700;border:none;border-radius:12px;cursor:pointer;background:var(--accent);color:#fff;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.03em}
+.login-btn:hover{background:#c44e2b;transform:translateY(-1px);box-shadow:0 8px 32px rgba(218,93,55,0.35)}
+.login-btn .arrow{font-size:18px;transition:transform 0.2s}
+.login-btn:hover .arrow{transform:translateX(4px)}
 .login-error{font-size:0.7rem;color:var(--red);margin-top:10px;display:none}
 
 /* Dashboard */
-.dashboard{display:none;position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 2rem 80px}
-.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:12px}
-.dash-title{font-size:1.3rem;font-weight:900}
-.dash-title .accent-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.dash-quarter{font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.06)}
-.dash-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.filter-btn{padding:7px 16px;font-family:inherit;font-size:0.68rem;font-weight:700;border-radius:100px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);transition:all 0.15s}
-.filter-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
-.filter-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.dashboard{display:none;position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:76px 2rem 80px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:12px}
+.dash-title{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:#fff}
+.dash-title .highlight{color:var(--accent)}
+.dash-title .highlight2{color:var(--accent2)}
+.dash-quarter{font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:20px;color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.1)}
+.dash-sub{font-size:0.78rem;color:var(--muted);margin-bottom:28px;font-weight:500}
+.filter-label{font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px}
+.dash-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.filter-btn{padding:6px 14px;font-family:inherit;font-size:0.62rem;font-weight:700;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);transition:all 0.15s}
+.filter-btn:hover{border-color:rgba(218,93,55,0.3);color:var(--text)}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* Score cards */
-.score-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
-.score-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:all 0.2s}
-.score-card:hover{border-color:rgba(255,255,255,0.12)}
+/* Score cards — landing page why-card style */
+.score-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.score-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;transition:all 0.2s;position:relative;overflow:hidden}
+.score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.2s}
+.score-card:hover{border-color:rgba(218,93,55,0.3);transform:translateY(-2px)}
+.score-card:hover::before{opacity:1}
 .sc-label{font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:10px}
 .sc-value{font-size:2.2rem;font-weight:900;letter-spacing:-0.02em}
 .sc-value.positive{color:#34d399}
@@ -49,11 +71,14 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .breakdown-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:10px}
 .bb-promoter{background:#1D9E75}.bb-passive{background:#EF9F27}.bb-detractor{background:#E24B4A}
 
-/* Sections */
-.section{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:all 0.2s}
-.section:hover{border-color:rgba(255,255,255,0.12)}
-.section-header{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em}
-.section-header span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+/* Sections — landing page card style */
+.section{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:all 0.2s;position:relative}
+.section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.2s}
+.section:hover{border-color:rgba(218,93,55,0.3)}
+.section:hover::before{opacity:1}
+.section-header{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.section-icon{font-size:1rem}
+.section-header span{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent)}
 .section-body{padding:16px 20px}
 
 /* Team table */
@@ -95,14 +120,24 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 </head>
 <body>
 
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Tran<span>Z</span>act</div>
+    <div class="nav-pill"><span class="dot"></span> People OS</div>
+  </div>
+</nav>
+
 <div class="glow-top"></div>
 <div class="glow-purple"></div>
 
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
-  <h2>Admin Access</h2>
+  <div class="login-eyebrow"><span class="dot"></span> Restricted Access</div>
+  <h2>Pulse <span class="highlight">Dashboard</span></h2>
+  <div class="login-sub">Leadership & People team only</div>
   <input type="password" class="login-input" id="passInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
-  <button class="login-btn" onclick="doLogin()">Unlock Dashboard</button>
+  <button class="login-btn" onclick="doLogin()">Unlock Dashboard <span class="arrow">&rarr;</span></button>
   <div class="login-error" id="loginError">Incorrect password. Try again.</div>
 </div>
 
@@ -110,12 +145,13 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 <div class="dashboard" id="dashboard">
 
   <div class="dash-header">
-    <div class="dash-title">Tran<span class="accent-text">Z</span>act Pulse — Dashboard</div>
+    <div class="dash-title">Tran<span class="highlight">Z</span>act <span class="highlight2">Pulse</span></div>
     <div class="dash-quarter" id="dashQuarter"></div>
   </div>
+  <div class="dash-sub">Employee engagement analytics — quarterly eNPS & pulse dimensions</div>
 
   <!-- Filter: Department -->
-  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Department</div>
+  <div class="filter-label">Filter by Department</div>
   <div class="dash-filter" id="filters" data-key="department">
     <button class="filter-btn active" data-val="All">All Teams</button>
     <button class="filter-btn" data-val="Sales">Sales</button>
@@ -128,7 +164,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     <button class="filter-btn" data-val="Leadership">Leadership</button>
   </div>
   <!-- Filter: Tenure -->
-  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Tenure</div>
+  <div class="filter-label">Filter by Tenure</div>
   <div class="dash-filter" id="filtersTenure" data-key="tenure">
     <button class="filter-btn active" data-val="All">All</button>
     <button class="filter-btn" data-val="0-6 months">0-6m</button>
@@ -138,7 +174,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     <button class="filter-btn" data-val="3+ years">3y+</button>
   </div>
   <!-- Filter: Role Level -->
-  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Role Level</div>
+  <div class="filter-label">Filter by Role Level</div>
   <div class="dash-filter" id="filtersRole" data-key="role_level">
     <button class="filter-btn active" data-val="All">All</button>
     <button class="filter-btn" data-val="Individual Contributor">IC</button>
@@ -147,7 +183,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
     <button class="filter-btn" data-val="Head / Director">Head+</button>
   </div>
   <!-- Filter: Work Mode -->
-  <div style="font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Filter by Work Mode</div>
+  <div class="filter-label">Filter by Work Mode</div>
   <div class="dash-filter" id="filtersWork" data-key="work_mode">
     <button class="filter-btn active" data-val="All">All</button>
     <button class="filter-btn" data-val="Office">Office</button>
@@ -209,7 +245,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 
   <!-- Team Breakdown -->
   <div class="section">
-    <div class="section-header"><span>Team-wise eNPS & Manager NPS</span></div>
+    <div class="section-header"><span class="section-icon">&#128202;</span><span>Team-wise eNPS & Manager NPS</span></div>
     <div class="section-body">
       <table class="team-table">
         <thead><tr><th>Department</th><th>Responses</th><th>eNPS</th><th>Avg eNPS</th><th>Manager NPS</th><th>Avg mNPS</th></tr></thead>
@@ -220,13 +256,13 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 
   <!-- Pulse Dimensions -->
   <div class="section">
-    <div class="section-header"><span>All 29 Dimensions — Detailed Breakdown</span></div>
+    <div class="section-header"><span class="section-icon">&#127919;</span><span>All 35 Dimensions — Detailed Breakdown</span></div>
     <div class="section-body" id="pulseSection"></div>
   </div>
 
   <!-- Feedback -->
   <div class="section">
-    <div class="section-header"><span>Anonymous Feedback</span></div>
+    <div class="section-header"><span class="section-icon">&#128172;</span><span>Anonymous Feedback</span></div>
     <div class="section-body" id="commentsSection"></div>
   </div>
 
