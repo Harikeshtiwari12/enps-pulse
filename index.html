@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TranZact Pulse Survey</title>
+<title>TranZact Pulse — Q2 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -14,71 +14,112 @@
 body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .glow-top{position:fixed;top:-300px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(218,93,55,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
 .glow-purple{position:fixed;bottom:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(223,122,254,0.04) 0%,transparent 70%);pointer-events:none;z-index:0}
-.container{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:60px 1.5rem 80px}
 
-.header{text-align:center;margin-bottom:48px}
-.logo-icon{width:44px;height:44px;margin:0 auto 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.container{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:50px 1.5rem 80px}
+
+/* Header */
+.header{text-align:center;margin-bottom:40px}
+.logo-icon{width:48px;height:48px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.4rem}
 h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-0.02em;line-height:1.1}
 h1 .accent-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .subtitle{font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
-.anon-badge{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;border-radius:100px;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--green);border:1px solid rgba(39,133,137,0.3);background:rgba(39,133,137,0.08)}
-.anon-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
+.trust-badges{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.trust-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.badge-anon{color:var(--green);border:1px solid rgba(39,133,137,0.3);background:rgba(39,133,137,0.08)}
+.badge-anon::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
+.badge-quarter{color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.06)}
+.badge-time{color:var(--muted);border:1px solid var(--border);background:var(--surface)}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;transition:border-color 0.2s}
+.intro-text{text-align:center;font-size:0.78rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+.intro-text strong{color:var(--text)}
+
+/* Progress bar */
+.progress-wrap{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 8px;margin-bottom:20px}
+.progress-bar{height:4px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.4s ease;width:0%}
+.progress-text{font-size:0.55rem;font-weight:700;color:var(--muted);margin-top:6px;text-align:center}
+
+/* Steps */
+.step{display:none}
+.step.active{display:block}
+
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;transition:border-color 0.2s}
 .card:hover{border-color:rgba(255,255,255,0.12)}
-.card-label{font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px}
+.card-label{font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;display:inline-flex;align-items:center;gap:8px}
+.card-label .cl-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.65rem}
+.cl-empathy{background:rgba(218,93,55,0.12);color:var(--accent)}
+.cl-passion{background:rgba(223,122,254,0.12);color:var(--accent2)}
+.cl-communication{background:rgba(55,138,221,0.12);color:#60a5fa}
+.cl-synergy{background:rgba(39,133,137,0.12);color:var(--green)}
+.cl-innovation{background:rgba(239,159,39,0.12);color:#fbbf24}
+.cl-other{background:rgba(255,255,255,0.06);color:var(--muted)}
 
-/* Department select */
-select{width:100%;padding:12px 16px;font-family:inherit;font-size:0.85rem;font-weight:600;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23858a8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+/* Select */
+select{width:100%;padding:12px 16px;font-family:inherit;font-size:0.82rem;font-weight:600;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23858a8e' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 select:focus{border-color:rgba(218,93,55,0.4)}
 
-/* eNPS Scale */
-.enps-question{font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.5}
-.enps-sub{font-size:0.7rem;color:var(--muted);margin-bottom:18px}
-.enps-scale{display:flex;gap:6px;flex-wrap:wrap}
-.enps-btn{flex:1;min-width:42px;padding:12px 4px;text-align:center;font-family:inherit;font-size:0.85rem;font-weight:800;border-radius:10px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
+/* eNPS 0-10 */
+.enps-q{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.5}
+.enps-scale{display:flex;gap:5px;flex-wrap:wrap}
+.enps-btn{flex:1;min-width:38px;padding:12px 2px;text-align:center;font-family:inherit;font-size:0.82rem;font-weight:800;border-radius:10px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
 .enps-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
 .enps-btn.detractor.active{background:rgba(226,75,74,0.15);border-color:#E24B4A;color:#f87171}
 .enps-btn.passive.active{background:rgba(239,159,39,0.15);border-color:#EF9F27;color:#fbbf24}
 .enps-btn.promoter.active{background:rgba(29,158,117,0.15);border-color:#1D9E75;color:#34d399}
-.scale-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:0.55rem;font-weight:600;color:rgba(255,255,255,0.15);text-transform:uppercase;letter-spacing:0.06em}
+.scale-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:0.5rem;font-weight:600;color:rgba(255,255,255,0.12);text-transform:uppercase;letter-spacing:0.06em}
 
-/* Pulse ratings */
-.pulse-q{margin-bottom:20px}
-.pulse-q:last-child{margin-bottom:0}
-.pulse-text{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.5}
-.pulse-btns{display:flex;gap:6px}
-.pulse-btn{flex:1;padding:10px 4px;text-align:center;font-family:inherit;font-size:0.75rem;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
-.pulse-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
-.pulse-btn.active{background:linear-gradient(135deg,rgba(218,93,55,0.15),rgba(223,122,254,0.1));border-color:var(--accent);color:var(--text)}
-.pulse-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:0.5rem;font-weight:600;color:rgba(255,255,255,0.15);text-transform:uppercase;letter-spacing:0.06em}
+/* Likert 4-point */
+.likert-q{margin-bottom:18px}
+.likert-q:last-child{margin-bottom:0}
+.lq-text{font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.6}
+.lq-num{font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.12);margin-bottom:6px}
+.likert-btns{display:flex;gap:6px}
+.likert-btn{flex:1;padding:10px 6px;text-align:center;font-family:inherit;font-size:0.62rem;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border);background:var(--surface2);color:var(--muted);line-height:1.3}
+.likert-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.likert-btn.active{border-color:var(--accent);color:var(--text)}
+.likert-btn[data-v="1"].active{background:rgba(226,75,74,0.12);border-color:#E24B4A;color:#f87171}
+.likert-btn[data-v="2"].active{background:rgba(239,159,39,0.12);border-color:#EF9F27;color:#fbbf24}
+.likert-btn[data-v="3"].active{background:rgba(55,138,221,0.12);border-color:#378ADD;color:#60a5fa}
+.likert-btn[data-v="4"].active{background:rgba(29,158,117,0.12);border-color:#1D9E75;color:#34d399}
 
 /* Textarea */
-textarea{width:100%;padding:14px 16px;font-family:inherit;font-size:0.82rem;font-weight:500;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;resize:vertical;min-height:100px;line-height:1.7}
+textarea{width:100%;padding:14px 16px;font-family:inherit;font-size:0.8rem;font-weight:500;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;resize:vertical;min-height:90px;line-height:1.7;margin-bottom:12px}
 textarea:focus{border-color:rgba(218,93,55,0.4)}
-textarea::placeholder{color:rgba(255,255,255,0.15)}
+textarea::placeholder{color:rgba(255,255,255,0.12)}
+.textarea-label{font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:8px;line-height:1.5}
 
-/* Submit */
-.submit-btn{width:100%;padding:16px;font-family:inherit;font-size:0.9rem;font-weight:800;letter-spacing:0.02em;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s;margin-top:8px}
+/* Segue question */
+.segue-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
+.segue-label{font-size:0.7rem;font-weight:600;color:var(--accent);margin-bottom:8px;line-height:1.5}
+
+/* Navigation */
+.nav-row{display:flex;gap:10px;margin-top:20px}
+.nav-btn{flex:1;padding:14px;font-family:inherit;font-size:0.82rem;font-weight:800;border-radius:12px;cursor:pointer;transition:all 0.2s;border:none}
+.nav-back{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+.nav-back:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.nav-next{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+.nav-next:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
+.nav-next:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
+.submit-btn{width:100%;padding:16px;font-family:inherit;font-size:0.9rem;font-weight:800;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;transition:all 0.2s;margin-top:20px}
 .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(218,93,55,0.25)}
-.submit-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+.submit-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* Success */
 .success-screen{display:none;text-align:center;padding:80px 20px}
-.success-icon{font-size:3rem;margin-bottom:20px}
+.success-check{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;animation:popIn 0.4s ease}
+@keyframes popIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .success-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
-.success-sub{font-size:0.8rem;color:var(--muted);line-height:1.6}
+.success-sub{font-size:0.8rem;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto}
 
-/* Quarter badge */
-.quarter-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(218,93,55,0.25);background:rgba(218,93,55,0.06);margin-top:12px}
-
-.footer{text-align:center;margin-top:40px;font-size:0.6rem;color:rgba(255,255,255,0.12);font-weight:600}
+.footer{text-align:center;margin-top:32px;font-size:0.55rem;color:rgba(255,255,255,0.1);font-weight:600}
 
 @media(max-width:480px){
-  .container{padding:40px 1rem 60px}
-  .enps-scale{gap:4px}
-  .enps-btn{min-width:28px;padding:10px 2px;font-size:0.75rem}
-  .pulse-btns{gap:4px}
+  .container{padding:36px 1rem 60px}
+  .enps-scale{gap:3px}
+  .enps-btn{min-width:26px;padding:10px 1px;font-size:0.72rem}
+  .likert-btns{gap:4px}
+  .likert-btn{font-size:0.55rem;padding:9px 3px}
 }
 </style>
 </head>
@@ -89,19 +130,33 @@ textarea::placeholder{color:rgba(255,255,255,0.15)}
 
 <div class="container">
 
-  <!-- SURVEY FORM -->
-  <div id="surveyForm">
-    <div class="header">
-      <div class="logo-icon">&#9878;</div>
-      <h1>Tran<span class="accent-text">Z</span>act Pulse</h1>
-      <p class="subtitle">Quarterly eNPS Survey</p>
-      <div class="anon-badge">100% Anonymous</div>
-      <div class="quarter-badge" id="quarterBadge"></div>
-    </div>
+<div id="surveyForm">
 
-    <!-- Department -->
+  <div class="header">
+    <div class="logo-icon">&#9878;</div>
+    <h1>Tran<span class="accent-text">Z</span>act Pulse</h1>
+    <p class="subtitle">Quarterly Employee Engagement Survey</p>
+    <div class="trust-badges">
+      <span class="trust-badge badge-anon">100% Anonymous</span>
+      <span class="trust-badge badge-quarter" id="quarterBadge"></span>
+      <span class="trust-badge badge-time">~5 min</span>
+    </div>
+  </div>
+
+  <div class="intro-text">
+    Your honest voice shapes our culture. Every response is <strong>completely anonymous</strong> — no names, no emails, no tracking. Speak freely. We're listening.
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Step 1 of 8</div>
+  </div>
+
+  <!-- STEP 1: Department -->
+  <div class="step active" data-step="1">
     <div class="card">
-      <div class="card-label">Your Department</div>
+      <div class="card-label"><span class="cl-icon cl-other">&#128188;</span> <span style="color:var(--muted)">Your Department</span></div>
       <select id="deptSelect">
         <option value="">Select your department...</option>
         <option value="Sales">Sales</option>
@@ -114,184 +169,273 @@ textarea::placeholder{color:rgba(255,255,255,0.15)}
         <option value="Leadership">Leadership</option>
       </select>
     </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-next" id="next1" disabled onclick="goStep(2)">Next</button>
+    </div>
+  </div>
 
-    <!-- eNPS Core -->
+  <!-- STEP 2: eNPS -->
+  <div class="step" data-step="2">
     <div class="card">
-      <div class="card-label">Net Promoter Score</div>
-      <div class="enps-question">How likely are you to recommend TranZact as a great place to work?</div>
-      <div class="enps-sub">0 = Not at all likely &nbsp;&middot;&nbsp; 10 = Extremely likely</div>
+      <div class="card-label"><span class="cl-icon cl-empathy">&#10084;</span> <span style="color:var(--muted)">Net Promoter Score</span></div>
+      <div class="enps-q">How likely are you to recommend TranZact as a great place to work?</div>
       <div class="enps-scale" id="enpsScale"></div>
-      <div class="scale-labels"><span>Not likely</span><span>Neutral</span><span>Extremely likely</span></div>
+      <div class="scale-labels"><span>Not at all likely</span><span>Extremely likely</span></div>
+      <div class="segue-box" id="segueBox">
+        <div class="segue-label" id="segueLabel"></div>
+        <textarea id="segueAnswer" placeholder="Share your thoughts..."></textarea>
+      </div>
     </div>
-
-    <!-- Pulse Questions -->
     <div class="card">
-      <div class="card-label">Pulse Check</div>
-
-      <div class="pulse-q">
-        <div class="pulse-text">My manager supports my growth and gives me regular, useful feedback.</div>
-        <div class="pulse-btns" data-q="manager">
-          <div class="pulse-btn" data-v="1">1</div>
-          <div class="pulse-btn" data-v="2">2</div>
-          <div class="pulse-btn" data-v="3">3</div>
-          <div class="pulse-btn" data-v="4">4</div>
-          <div class="pulse-btn" data-v="5">5</div>
-        </div>
-        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-      </div>
-
-      <div class="pulse-q">
-        <div class="pulse-text">I have real opportunities to learn, grow, and advance my career here.</div>
-        <div class="pulse-btns" data-q="growth">
-          <div class="pulse-btn" data-v="1">1</div>
-          <div class="pulse-btn" data-v="2">2</div>
-          <div class="pulse-btn" data-v="3">3</div>
-          <div class="pulse-btn" data-v="4">4</div>
-          <div class="pulse-btn" data-v="5">5</div>
-        </div>
-        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-      </div>
-
-      <div class="pulse-q">
-        <div class="pulse-text">I feel a genuine sense of belonging and alignment with TranZact's culture.</div>
-        <div class="pulse-btns" data-q="culture">
-          <div class="pulse-btn" data-v="1">1</div>
-          <div class="pulse-btn" data-v="2">2</div>
-          <div class="pulse-btn" data-v="3">3</div>
-          <div class="pulse-btn" data-v="4">4</div>
-          <div class="pulse-btn" data-v="5">5</div>
-        </div>
-        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-      </div>
-
-      <div class="pulse-q">
-        <div class="pulse-text">I'm able to maintain a healthy balance between work and personal life.</div>
-        <div class="pulse-btns" data-q="worklife">
-          <div class="pulse-btn" data-v="1">1</div>
-          <div class="pulse-btn" data-v="2">2</div>
-          <div class="pulse-btn" data-v="3">3</div>
-          <div class="pulse-btn" data-v="4">4</div>
-          <div class="pulse-btn" data-v="5">5</div>
-        </div>
-        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-      </div>
-
-      <div class="pulse-q">
-        <div class="pulse-text">Leadership communicates openly and I understand where the company is headed.</div>
-        <div class="pulse-btns" data-q="communication">
-          <div class="pulse-btn" data-v="1">1</div>
-          <div class="pulse-btn" data-v="2">2</div>
-          <div class="pulse-btn" data-v="3">3</div>
-          <div class="pulse-btn" data-v="4">4</div>
-          <div class="pulse-btn" data-v="5">5</div>
-        </div>
-        <div class="pulse-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-      </div>
+      <div class="card-label"><span class="cl-icon cl-other">&#128172;</span> <span style="color:var(--muted)">Tell Us More</span></div>
+      <div class="textarea-label">What is the primary reason for your score?</div>
+      <textarea id="enpsReason" placeholder="Be honest — this is completely anonymous..."></textarea>
     </div>
-
-    <!-- Open Feedback -->
-    <div class="card">
-      <div class="card-label">Open Feedback</div>
-      <textarea id="feedback" placeholder="What's the primary reason for your score? What can we do better? (Optional)"></textarea>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(1)">Back</button>
+      <button class="nav-btn nav-next" id="next2" disabled onclick="goStep(3)">Next</button>
     </div>
-
-    <button class="submit-btn" id="submitBtn" disabled onclick="submitSurvey()">Submit Response</button>
-
-    <div class="footer">Your response is completely anonymous. No names or emails are collected.</div>
   </div>
 
-  <!-- SUCCESS SCREEN -->
-  <div id="successScreen" class="success-screen">
-    <div class="success-icon">&#10003;</div>
-    <div class="success-title">Thank you!</div>
-    <div class="success-sub">Your anonymous response has been recorded.<br>Your voice matters — it helps us build a better TranZact.</div>
+  <!-- STEP 3: Manager NPS + Manager Questions -->
+  <div class="step" data-step="3">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-communication">&#128101;</span> <span style="color:var(--muted)">Your Manager</span></div>
+      <div class="enps-q" style="font-size:0.85rem">How likely are you to recommend your manager to your friends?</div>
+      <div class="enps-scale" id="mnpsScale"></div>
+      <div class="scale-labels"><span>Not at all likely</span><span>Extremely likely</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-communication">&#128172;</span> <span style="color:var(--muted)">Manager Relationship</span></div>
+      <div class="likert-q"><div class="lq-num">Q1</div><div class="lq-text">My manager has regular 1:1 conversations with me</div><div class="likert-btns" data-q="mgr_1on1"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q2</div><div class="lq-text">My manager provides actionable and development feedback</div><div class="likert-btns" data-q="mgr_feedback"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q3</div><div class="lq-text">My manager values me and my opinions even when we disagree</div><div class="likert-btns" data-q="mgr_values"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q4</div><div class="lq-text">My manager provides ownership and does not micromanage</div><div class="likert-btns" data-q="mgr_ownership"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q5</div><div class="lq-text">My manager is fair while dealing with people in the team</div><div class="likert-btns" data-q="mgr_fair"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(2)">Back</button>
+      <button class="nav-btn nav-next" id="next3" disabled onclick="goStep(4)">Next</button>
+    </div>
   </div>
+
+  <!-- STEP 4: Alignment & Communication -->
+  <div class="step" data-step="4">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-communication">&#127919;</span> <span style="color:var(--muted)">Alignment & Communication</span></div>
+      <div class="likert-q"><div class="lq-num">Q6</div><div class="lq-text">I am clear on the company objectives and how we are planning to achieve them</div><div class="likert-btns" data-q="align_company"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q7</div><div class="lq-text">I am clear on my goals and how my work contributes to the overall objectives</div><div class="likert-btns" data-q="align_goals"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q8</div><div class="lq-text">I have a voice in the organisation</div><div class="likert-btns" data-q="comm_voice"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q9</div><div class="lq-text">I feel comfortable sharing feedback and areas of improvement transparently</div><div class="likert-btns" data-q="comm_transparent"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q10</div><div class="lq-text">Leaders and superiors communicate company news effectively and timely</div><div class="likert-btns" data-q="comm_leaders"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q11</div><div class="lq-text">Communication amongst peers in my team is honest and transparent</div><div class="likert-btns" data-q="comm_peers"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(3)">Back</button>
+      <button class="nav-btn nav-next" id="next4" disabled onclick="goStep(5)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Culture, Impact & Innovation -->
+  <div class="step" data-step="5">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-passion">&#9889;</span> <span style="color:var(--muted)">Culture, Impact & Innovation</span></div>
+      <div class="likert-q"><div class="lq-num">Q12</div><div class="lq-text">We have a strong impact orientation in whatever we do</div><div class="likert-btns" data-q="impact_orientation"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q13</div><div class="lq-text">We have a strong sense of urgency towards solving problems</div><div class="likert-btns" data-q="impact_urgency"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q14</div><div class="lq-text">We are encouraged to try new ways of doing things — there is no fear of failure</div><div class="likert-btns" data-q="innovation"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q15</div><div class="lq-text">My organization's values are aligned with the values I consider important in life</div><div class="likert-btns" data-q="values_aligned"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q16</div><div class="lq-text">We collaborate well between teams to achieve our shared goals</div><div class="likert-btns" data-q="collaboration"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q17</div><div class="lq-text">We have an effective decision-making process with autonomy to take decisions</div><div class="likert-btns" data-q="decision_making"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(4)">Back</button>
+      <button class="nav-btn nav-next" id="next5" disabled onclick="goStep(6)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: Growth, Rewards & Leadership -->
+  <div class="step" data-step="6">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-synergy">&#128640;</span> <span style="color:var(--muted)">Growth, Rewards & Leadership</span></div>
+      <div class="likert-q"><div class="lq-num">Q18</div><div class="lq-text">I have sufficient opportunities to learn and develop myself professionally</div><div class="likert-btns" data-q="growth_learn"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q19</div><div class="lq-text">I am recognized and rewarded fairly for the work I do</div><div class="likert-btns" data-q="rewards_fair"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q20</div><div class="lq-text">I find it easy to approach anyone from the leadership team regarding anything</div><div class="likert-btns" data-q="leaders_approachable"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q21</div><div class="lq-text">Leaders display company values through their actions and behaviours</div><div class="likert-btns" data-q="leaders_values"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q22</div><div class="lq-text">I find people recently hired are culturally aligned to us</div><div class="likert-btns" data-q="hiring_culture"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(5)">Back</button>
+      <button class="nav-btn nav-next" id="next6" disabled onclick="goStep(7)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: Wellbeing & Policies -->
+  <div class="step" data-step="7">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-empathy">&#127793;</span> <span style="color:var(--muted)">Wellbeing & Policies</span></div>
+      <div class="likert-q"><div class="lq-num">Q23</div><div class="lq-text">My workplace provides flexibility for a good work-life balance</div><div class="likert-btns" data-q="wlb"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q24</div><div class="lq-text">My organization cares about the mental health of its employees</div><div class="likert-btns" data-q="mental_health"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q25</div><div class="lq-text">People from all backgrounds are treated fairly in my organization</div><div class="likert-btns" data-q="diversity_fair"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q26</div><div class="lq-text">I feel safe and positive in my workplace</div><div class="likert-btns" data-q="safe_positive"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q27</div><div class="lq-text">My organization celebrates our accomplishments and learnings</div><div class="likert-btns" data-q="celebrates"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q28</div><div class="lq-text">I have the resources to do my job effectively</div><div class="likert-btns" data-q="resources"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+      <div class="likert-q"><div class="lq-num">Q29</div><div class="lq-text">I believe we have employee-friendly people policies</div><div class="likert-btns" data-q="policies"><div class="likert-btn" data-v="1">Strongly Disagree</div><div class="likert-btn" data-v="2">Disagree</div><div class="likert-btn" data-v="3">Agree</div><div class="likert-btn" data-v="4">Strongly Agree</div></div></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(6)">Back</button>
+      <button class="nav-btn nav-next" id="next7" disabled onclick="goStep(8)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: Open Feedback -->
+  <div class="step" data-step="8">
+    <div class="card">
+      <div class="card-label"><span class="cl-icon cl-passion">&#128221;</span> <span style="color:var(--muted)">Your Voice Matters</span></div>
+      <div class="textarea-label">What is working well in the organization?</div>
+      <textarea data-open="working_well" placeholder="What makes TranZact great for you?"></textarea>
+      <div class="textarea-label">What needs to change or improve?</div>
+      <textarea data-open="needs_change" placeholder="Be honest — this helps us grow..."></textarea>
+      <div class="textarea-label">Any feedback about your manager, team, or leadership?</div>
+      <textarea data-open="mgr_team_feedback" placeholder="This stays anonymous..."></textarea>
+      <div class="textarea-label">Any inputs on culture, HR policies & practices?</div>
+      <textarea data-open="culture_hr" placeholder="Policies, benefits, practices..."></textarea>
+      <div class="textarea-label">Do you see yourself working here for the next 5 years? What factors affect your answer?</div>
+      <textarea data-open="five_year" placeholder="What keeps you here — or what might not?"></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-back" onclick="goStep(7)">Back</button>
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">Submit My Response</button>
+  </div>
+
+  <div class="footer">Your identity is never collected. Responses cannot be traced back to you.</div>
+</div>
+
+<!-- SUCCESS -->
+<div id="successScreen" class="success-screen">
+  <div class="success-check">&#10003;</div>
+  <div class="success-title">Thank you!</div>
+  <div class="success-sub">Your anonymous voice has been heard. Every response helps us build a better TranZact — for everyone.<br><br>Results will be shared with the team next quarter.</div>
+</div>
 
 </div>
 
 <script>
-// Quarter badge
 const now=new Date(),q=Math.ceil((now.getMonth()+1)/3),yr=now.getFullYear();
 document.getElementById('quarterBadge').textContent='Q'+q+' '+yr;
 
-// eNPS scale
-const enpsScale=document.getElementById('enpsScale');
-for(let i=0;i<=10;i++){
-  const btn=document.createElement('div');
-  btn.className='enps-btn '+(i<=6?'detractor':i<=8?'passive':'promoter');
-  btn.textContent=i;
-  btn.dataset.v=i;
-  btn.onclick=function(){
-    enpsScale.querySelectorAll('.enps-btn').forEach(b=>b.classList.remove('active'));
-    this.classList.add('active');
-    state.enps=parseInt(this.dataset.v);
-    checkReady();
-  };
-  enpsScale.appendChild(btn);
-}
+const TOTAL_STEPS=8;
+let currentStep=1;
+const state={dept:'',enps:null,enps_reason:'',segue_answer:'',mnps:null};
+const likertState={};
+const openState={};
 
-// State
-const state={dept:'',enps:null,manager:null,growth:null,culture:null,worklife:null,communication:null};
+// Build eNPS scales
+function buildScale(containerId,stateKey){
+  const el=document.getElementById(containerId);
+  for(let i=0;i<=10;i++){
+    const btn=document.createElement('div');
+    btn.className='enps-btn '+(i<=6?'detractor':i<=8?'passive':'promoter');
+    btn.textContent=i;
+    btn.dataset.v=i;
+    btn.onclick=function(){
+      el.querySelectorAll('.enps-btn').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      state[stateKey]=parseInt(this.dataset.v);
+      if(stateKey==='enps'){
+        const sb=document.getElementById('segueBox');
+        const sl=document.getElementById('segueLabel');
+        sb.style.display='block';
+        if(state.enps>=9){sl.textContent='You\'re a promoter! What should we start or continue doing to stay great?';}
+        else if(state.enps>=7){sl.textContent='You\'re neutral — what would take your experience from ordinary to great?';}
+        else{sl.textContent='What\'s your biggest obstacle to a positive work experience here?';}
+      }
+      validateStep();
+    };
+    el.appendChild(btn);
+  }
+}
+buildScale('enpsScale','enps');
+buildScale('mnpsScale','mnps');
 
 // Dept
-document.getElementById('deptSelect').onchange=function(){
-  state.dept=this.value;
-  checkReady();
-};
+document.getElementById('deptSelect').onchange=function(){state.dept=this.value;validateStep();};
 
-// Pulse buttons
-document.querySelectorAll('.pulse-btns').forEach(group=>{
-  const q=group.dataset.q;
-  group.querySelectorAll('.pulse-btn').forEach(btn=>{
+// Likert buttons
+document.querySelectorAll('.likert-btns').forEach(group=>{
+  const qKey=group.dataset.q;
+  group.querySelectorAll('.likert-btn').forEach(btn=>{
     btn.onclick=function(){
-      group.querySelectorAll('.pulse-btn').forEach(b=>b.classList.remove('active'));
+      group.querySelectorAll('.likert-btn').forEach(b=>b.classList.remove('active'));
       this.classList.add('active');
-      state[q]=parseInt(this.dataset.v);
-      checkReady();
+      likertState[qKey]=parseInt(this.dataset.v);
+      validateStep();
     };
   });
 });
 
-function checkReady(){
-  const ready=state.dept&&state.enps!==null&&state.manager&&state.growth&&state.culture&&state.worklife&&state.communication;
-  document.getElementById('submitBtn').disabled=!ready;
+// Step validation
+const stepRequirements={
+  1:()=>!!state.dept,
+  2:()=>state.enps!==null,
+  3:()=>state.mnps!==null&&['mgr_1on1','mgr_feedback','mgr_values','mgr_ownership','mgr_fair'].every(k=>likertState[k]),
+  4:()=>['align_company','align_goals','comm_voice','comm_transparent','comm_leaders','comm_peers'].every(k=>likertState[k]),
+  5:()=>['impact_orientation','impact_urgency','innovation','values_aligned','collaboration','decision_making'].every(k=>likertState[k]),
+  6:()=>['growth_learn','rewards_fair','leaders_approachable','leaders_values','hiring_culture'].every(k=>likertState[k]),
+  7:()=>['wlb','mental_health','diversity_fair','safe_positive','celebrates','resources','policies'].every(k=>likertState[k]),
+  8:()=>true
+};
+
+function validateStep(){
+  const nextBtn=document.getElementById('next'+currentStep);
+  if(nextBtn)nextBtn.disabled=!stepRequirements[currentStep]();
 }
 
-// Google Sheets endpoint
+function goStep(n){
+  document.querySelector('.step.active').classList.remove('active');
+  document.querySelector('[data-step="'+n+'"]').classList.add('active');
+  currentStep=n;
+  const pct=Math.round(((n-1)/(TOTAL_STEPS-1))*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent='Step '+n+' of '+TOTAL_STEPS;
+  validateStep();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Submit
 const SHEET_URL='https://script.google.com/macros/s/AKfycbyFhaDbyD1NfYUBuV4RCK8fOWm88HMcLhU1gShPuVWniA_Ql-K81jHhSubjA0muQukIWw/exec';
 
 function submitSurvey(){
   const btn=document.getElementById('submitBtn');
-  btn.disabled=true;
-  btn.textContent='Submitting...';
+  btn.disabled=true;btn.textContent='Submitting...';
+
+  // Collect open textareas
+  document.querySelectorAll('textarea[data-open]').forEach(ta=>{openState[ta.dataset.open]=ta.value.trim()||'—';});
 
   const category=state.enps<=6?'Detractor':state.enps<=8?'Passive':'Promoter';
+  const mCategory=state.mnps<=6?'Detractor':state.mnps<=8?'Passive':'Promoter';
+
   const payload={
     timestamp:new Date().toISOString(),
     quarter:'Q'+q+' '+yr,
     department:state.dept,
     enps_score:state.enps,
     enps_category:category,
-    manager_support:state.manager,
-    growth_learning:state.growth,
-    culture_belonging:state.culture,
-    work_life_balance:state.worklife,
-    communication_transparency:state.communication,
-    feedback:document.getElementById('feedback').value.trim()||'—'
+    enps_reason:document.getElementById('enpsReason').value.trim()||'—',
+    segue_answer:document.getElementById('segueAnswer').value.trim()||'—',
+    mnps_score:state.mnps,
+    mnps_category:mCategory,
+    ...likertState,
+    ...openState
   };
 
-  fetch(SHEET_URL,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  }).then(()=>{
-    document.getElementById('surveyForm').style.display='none';
-    document.getElementById('successScreen').style.display='block';
-  }).catch(()=>{
-    document.getElementById('surveyForm').style.display='none';
-    document.getElementById('successScreen').style.display='block';
-  });
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+  .then(()=>showSuccess()).catch(()=>showSuccess());
+}
+
+function showSuccess(){
+  document.getElementById('surveyForm').style.display='none';
+  document.getElementById('successScreen').style.display='block';
 }
 </script>
 </body>
